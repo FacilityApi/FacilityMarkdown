@@ -4,7 +4,7 @@ using System.Resources;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("fsdgenmd")]
-[assembly: AssemblyDescription("Generates C# for a Facility Service Definition.")]
+[assembly: AssemblyDescription("A command-line tool that generates Markdown for a Facility Service Definition.")]
 [assembly: AssemblyProduct("fsdgenmd")]
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
