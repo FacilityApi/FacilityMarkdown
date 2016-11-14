@@ -1,3 +1,3 @@
-# Facility C# Support
+# Facility Markdown
 
-C# support for the [Facility API Framework](https://github.com/FacilityApi/Facility).
+Markdown support for the [Facility API Framework](https://github.com/FacilityApi/Facility).
