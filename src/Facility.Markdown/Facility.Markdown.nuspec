@@ -18,7 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Facility.Markdown\bin\Release\Facility.Markdown.*" target="lib/dotnet" />
-    <file src="Facility.Markdown\bin\Release\Facility.Markdown.*" target="lib/portable-net45+netcore45+wpa81" />
+    <file src="bin\Release\Facility.Markdown.*" target="lib/dotnet" />
+    <file src="bin\Release\Facility.Markdown.*" target="lib/portable-net45+netcore45+wpa81" />
   </files>
 </package>

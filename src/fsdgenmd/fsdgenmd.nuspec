@@ -12,8 +12,8 @@
     <licenseUrl>https://raw.githubusercontent.com/FacilityApi/FacilityMarkdown/master/LICENSE</licenseUrl>
   </metadata>
   <files>
-    <file src="fsdgenmd\bin\Release\*.exe" target="tools" />
-    <file src="fsdgenmd\bin\Release\*.dll" target="tools" />
-    <file src="fsdgenmd\bin\Release\*.config" target="tools" />
+    <file src="bin\Release\*.exe" target="tools" />
+    <file src="bin\Release\*.dll" target="tools" />
+    <file src="bin\Release\*.config" target="tools" />
   </files>
 </package>
