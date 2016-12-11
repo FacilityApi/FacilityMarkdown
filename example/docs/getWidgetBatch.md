@@ -4,13 +4,9 @@ Gets the specified widgets.
 
 ```
 POST /widgets/get
-{
-  "ids": [ "(string)", ... ]
-}
+(ids)
 --- 200 OK
-{
-  "results": [ { "value": { "id": ... } | "error": { "code": ... } }, ... ]
-}
+(results)
 ```
 
 | request | type | description |

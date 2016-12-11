@@ -16,6 +16,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facility.Markdown", "src\Fa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facility.Markdown.UnitTests", "tests\Facility.Markdown.UnitTests\Facility.Markdown.UnitTests.csproj", "{E58F26CF-5686-4615-A53E-AD6A45BC7F5B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{C82BFA69-5C83-4F83-B74F-6F5176554225}"
+	ProjectSection(SolutionItems) = preProject
+		example\ExampleApi.fsd = example\ExampleApi.fsd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
