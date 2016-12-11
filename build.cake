@@ -47,9 +47,6 @@ void CodeGen(bool verify)
 		@"example\ExampleApi.fsd example\docs" + (verify ? " --verify" : ""));
 }
 
-Task("CodeGen")
-	.Does(() => CodeGen(verify: false));
-
 Task("Clean")
 	.Does(() =>
 	{
@@ -67,6 +64,10 @@ Task("Build")
 		NuGetRestore(solutionFileName);
 		MSBuild(solutionFileName, settings => settings.SetConfiguration(configuration));
 	});
+
+Task("CodeGen")
+	.IsDependentOn("Build")
+	.Does(() => CodeGen(verify: false));
 
 Task("VerifyCodeGen")
 	.IsDependentOn("Build")
