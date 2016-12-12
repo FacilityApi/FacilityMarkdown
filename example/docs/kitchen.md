@@ -4,7 +4,7 @@
 ```
 POST /kitchen
 {
-  "sink": {}
+  "sink": { "matrix": ... }
 }
 --- 204 No Content
 ```
