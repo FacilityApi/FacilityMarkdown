@@ -12,7 +12,7 @@ using Facility.Definition.Http;
 namespace Facility.Markdown
 {
 	/// <summary>
-	/// Generates C#.
+	/// Generates Markdown.
 	/// </summary>
 	public sealed class MarkdownGenerator : CodeGenerator
 	{
@@ -22,7 +22,7 @@ namespace Facility.Markdown
 		public bool NoHttp { get; set; }
 
 		/// <summary>
-		/// Generates the C# output.
+		/// Generates the Markdown.
 		/// </summary>
 		protected override CodeGenOutput GenerateOutputCore(ServiceInfo serviceInfo)
 		{
