@@ -368,7 +368,8 @@ namespace Facility.Markdown
 		{
 			const int maxValues = 3;
 			var values = enumInfo.Values.Where(x => !x.IsObsolete()).ToList();
-			return "\"(" + string.Join("|", values.Select(x => x.Name).Take(maxValues)) + (values.Count > maxValues ? "|..." : "") + ")\"";
+			return values.Count == 1 ? $"\"{values[0].Name}\"" :
+				"\"(" + string.Join("|", values.Select(x => x.Name).Take(maxValues)) + (values.Count > maxValues ? "|..." : "") + ")\"";
 		}
 
 		private string RenderFieldType(ServiceTypeInfo typeInfo)
