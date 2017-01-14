@@ -4,7 +4,7 @@ using Facility.Definition;
 using Facility.Definition.Fsd;
 using NUnit.Framework;
 
-namespace Facility.Markdown.UnitTests
+namespace Facility.CodeGen.Markdown.UnitTests
 {
 	public sealed class MarkdownGeneratorTests
 	{
@@ -12,7 +12,7 @@ namespace Facility.Markdown.UnitTests
 		public void GenerateExampleApiSuccess()
 		{
 			ServiceInfo service;
-			const string fileName = "Facility.Markdown.UnitTests.ExampleApi.fsd";
+			const string fileName = "Facility.CodeGen.Markdown.UnitTests.ExampleApi.fsd";
 			var parser = new FsdParser();
 			var stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream(fileName);
 			Assert.IsNotNull(stream);
