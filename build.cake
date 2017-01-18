@@ -33,21 +33,6 @@ if (!string.IsNullOrEmpty(githubApiKey))
 string version = null;
 string headSha = null;
 
-string GetSemVerFromFile(string path)
-{
-	var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(path);
-	var semver = $"{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}";
-	if (prerelease.Length != 0)
-		semver += $"-{prerelease}";
-	return semver;
-}
-
-void CodeGen(bool verify)
-{
-	ExecuteProcess($@"src\fsdgenmd\bin\{configuration}\fsdgenmd.exe",
-		@"example\ExampleApi.fsd example\docs" + (verify ? " --verify" : ""));
-}
-
 Task("Clean")
 	.Does(() =>
 	{
@@ -189,6 +174,29 @@ Task("CoveragePublish")
 
 Task("Default")
 	.IsDependentOn("Test");
+
+string GetSemVerFromFile(string path)
+{
+	var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(path);
+	var semver = $"{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}";
+	if (prerelease.Length != 0)
+		semver += $"-{prerelease}";
+	return semver;
+}
+
+void CodeGen(bool verify)
+{
+	ExecuteCodeGen(@"example\ExampleApi.fsd example\docs", verify);
+}
+
+void ExecuteCodeGen(string args, bool verify)
+{
+	int exitCode = StartProcess($@"src\fsdgenmd\bin\{configuration}\fsdgenmd.exe", args + (verify ? " --verify" : ""));
+	if (exitCode == 1 && verify)
+		throw new InvalidOperationException("Generated code doesn't match; use -target=CodeGen to regenerate.");
+	else if (exitCode != 0)
+		throw new InvalidOperationException($"Code generation failed with exit code {exitCode}.");
+}
 
 void ExecuteProcess(string exePath, string arguments)
 {
