@@ -6,7 +6,7 @@ POST /kitchen
 {
   "sink": { "matrix": ... }
 }
---- 204 No Content
+--- 200 OK
 ```
 
 | request | type | description |
