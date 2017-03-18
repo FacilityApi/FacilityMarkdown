@@ -5,7 +5,8 @@ A widget.
 ```
 {
   "id": "(string)",
-  "name": "(string)"
+  "name": "(string)",
+  "price": (number)
 }
 ```
 
@@ -13,6 +14,7 @@ A widget.
 | --- | --- | --- |
 | id | string | A unique identifier for the widget. |
 | name | string | The name of the widget. |
+| price | decimal | The price of the widget. |
 
 Additional DTO remarks.
 

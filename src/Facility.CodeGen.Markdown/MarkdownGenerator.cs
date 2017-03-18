@@ -333,6 +333,7 @@ namespace Facility.CodeGen.Markdown
 			case ServiceTypeKind.Boolean:
 				return "(true|false)";
 			case ServiceTypeKind.Double:
+			case ServiceTypeKind.Decimal:
 				return "(number)";
 			case ServiceTypeKind.Int32:
 			case ServiceTypeKind.Int64:
@@ -386,6 +387,8 @@ namespace Facility.CodeGen.Markdown
 				return "int32";
 			case ServiceTypeKind.Int64:
 				return "int64";
+			case ServiceTypeKind.Decimal:
+				return "decimal";
 			case ServiceTypeKind.Bytes:
 				return "bytes";
 			case ServiceTypeKind.Object:

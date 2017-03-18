@@ -22,6 +22,8 @@ A preference.
   "results": [ { "value": { "id": ... } | "error": { "code": ... } }, ... ],
   "bigInteger": (integer),
   "bigIntegers": [ (integer), ... ],
+  "decimal": (number),
+  "decimals": [ (number), ... ],
   "error": { "code": ... },
   "errors": [ { "code": ... }, ... ],
   "object": { ... },
@@ -51,6 +53,8 @@ A preference.
 | results | result<[Widget](Widget.md)>[] |  |
 | bigInteger | int64 |  |
 | bigIntegers | int64[] |  |
+| decimal | decimal |  |
+| decimals | decimal[] |  |
 | error | error |  |
 | errors | error[] |  |
 | object | object |  |

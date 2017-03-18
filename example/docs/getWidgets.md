@@ -8,6 +8,7 @@ GET /widgets
   &limit={limit}
   &sort={sort}
   &desc={desc}
+  &minPrice={minPrice}
 --- 200 OK
 {
   "widgets": [ { "id": ... }, ... ],
@@ -23,6 +24,7 @@ GET /widgets
 | limit | int32 | The limit of returned results. |
 | sort | [WidgetField](WidgetField.md) | The sort field. |
 | desc | boolean | True to sort descending. |
+| minPrice | decimal | The minimum price. |
 
 | response | type | description |
 | --- | --- | --- |
