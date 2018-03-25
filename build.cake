@@ -13,7 +13,7 @@ var solutionFileName = "FacilityMarkdown.sln";
 var docsAssemblies = new[] { "Facility.CodeGen.Markdown" };
 var docsRepoUri = "https://github.com/FacilityApi/FacilityApi.github.io.git";
 var docsRepoBranch = "master";
-var docsSourceUri = "https://github.com/FacilityApi/Facility/tree/master/src";
+var docsSourceUri = "https://github.com/FacilityApi/FacilityMarkdown/tree/master/src";
 
 var nugetSource = "https://api.nuget.org/v3/index.json";
 var buildBotUserName = "ejball";
