@@ -77,7 +77,6 @@ Task("UpdateDocs")
 		var docsDirectory = new DirectoryPath(docsRepoBranch);
 		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = docsRepoBranch });
 
-		var slash = System.IO.Path.DirectorySeparatorChar;
 		var outputPath = $"{docsRepoBranch}{slash}reference";
 		var buildBranch = EnvironmentVariable("APPVEYOR_REPO_BRANCH");
 		if (buildBranch != "master" || !Regex.IsMatch(trigger, @"^(v[0-9]+\.[0-9]+\.[0-9]+|update-docs)$"))
@@ -141,7 +140,7 @@ Task("Default")
 
 void CodeGen(bool verify)
 {
-	ExecuteCodeGen(@"example\ExampleApi.fsd example\docs", verify);
+	ExecuteCodeGen($@"{File("example/ExampleApi.fsd")} {Directory("example/docs")}{slash}", verify);
 }
 
 void ExecuteCodeGen(string args, bool verify)
