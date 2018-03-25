@@ -16,7 +16,7 @@ namespace Facility.CodeGen.Markdown
 	public sealed class MarkdownGenerator : CodeGenerator
 	{
 		/// <summary>
-		/// True if HTTP documentation should be omitted.
+		/// True if the HTTP documentation should be omitted.
 		/// </summary>
 		public bool NoHttp { get; set; }
 
