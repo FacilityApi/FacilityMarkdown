@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{A219E328-B15A-41FF-BAA5-5F46679EF9C8}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,16 +11,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{A219E328-B
 		appveyor.yml = appveyor.yml
 		build.cake = build.cake
 		build.ps1 = build.ps1
+		build.sh = build.sh
+		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE = LICENSE
 		README.md = README.md
-		SolutionInfo.cs = SolutionInfo.cs
+		SolutionInfo.props = SolutionInfo.props
+		VersionHistory.md = VersionHistory.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fsdgenmd", "src\fsdgenmd\fsdgenmd.csproj", "{A15ADBEC-C818-4ABA-A2C9-8D40F754F029}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fsdgenmd", "src\fsdgenmd\fsdgenmd.csproj", "{A15ADBEC-C818-4ABA-A2C9-8D40F754F029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facility.CodeGen.Markdown", "src\Facility.CodeGen.Markdown\Facility.CodeGen.Markdown.csproj", "{46EB4760-9AF9-429F-BCFA-47323E61508E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.CodeGen.Markdown", "src\Facility.CodeGen.Markdown\Facility.CodeGen.Markdown.csproj", "{46EB4760-9AF9-429F-BCFA-47323E61508E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facility.CodeGen.Markdown.UnitTests", "tests\Facility.CodeGen.Markdown.UnitTests\Facility.CodeGen.Markdown.UnitTests.csproj", "{E58F26CF-5686-4615-A53E-AD6A45BC7F5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.CodeGen.Markdown.UnitTests", "tests\Facility.CodeGen.Markdown.UnitTests\Facility.CodeGen.Markdown.UnitTests.csproj", "{E58F26CF-5686-4615-A53E-AD6A45BC7F5B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{C82BFA69-5C83-4F83-B74F-6F5176554225}"
 	ProjectSection(SolutionItems) = preProject
@@ -48,5 +51,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA6D63A9-6DCC-47C6-A7D0-6B49EE3EA04C}
 	EndGlobalSection
 EndGlobal
