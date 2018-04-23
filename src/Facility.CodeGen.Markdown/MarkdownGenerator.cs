@@ -25,22 +25,22 @@ namespace Facility.CodeGen.Markdown
 		/// </summary>
 		protected override CodeGenOutput GenerateOutputCore(ServiceInfo serviceInfo)
 		{
-			var outputFiles = new List<NamedText>();
+			var outputFiles = new List<CodeGenFile>();
 
-			var httpServiceInfo = new HttpServiceInfo(serviceInfo);
+			var httpServiceInfo = HttpServiceInfo.Create(serviceInfo);
 
 			outputFiles.Add(GenerateService(serviceInfo, httpServiceInfo));
 
-			foreach (ServiceMethodInfo methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete()))
+			foreach (ServiceMethodInfo methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateMethod(methodInfo, serviceInfo, httpServiceInfo));
 
-			foreach (ServiceDtoInfo dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete()))
+			foreach (ServiceDtoInfo dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateDto(dtoInfo, serviceInfo, httpServiceInfo));
 
-			foreach (ServiceEnumInfo enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete()))
+			foreach (ServiceEnumInfo enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateEnum(enumInfo));
 
-			foreach (ServiceErrorSetInfo errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete()))
+			foreach (ServiceErrorSetInfo errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateErrorSet(errorSetInfo));
 
 			string codeGenComment = CodeGenUtility.GetCodeGenComment(GeneratorName);
@@ -51,11 +51,11 @@ namespace Facility.CodeGen.Markdown
 			return new CodeGenOutput(outputFiles, patternsToClean);
 		}
 
-		private NamedText GenerateService(ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
+		private CodeGenFile GenerateService(ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
 		{
 			string serviceName = serviceInfo.Name;
 
-			return CreateNamedText("README.md", code =>
+			return CreateFile("README.md", code =>
 			{
 				code.WriteLine($"## {serviceName}");
 
@@ -77,7 +77,7 @@ namespace Facility.CodeGen.Markdown
 						code.WriteLine();
 						code.WriteLine("| method | path | description |");
 						code.WriteLine("| --- | --- | --- |");
-						foreach (var methodInfo in httpServiceInfo.Methods.Where(x => !x.ServiceMethod.IsObsolete()))
+						foreach (var methodInfo in httpServiceInfo.Methods.Where(x => !x.ServiceMethod.IsObsolete))
 						{
 							code.WriteLine($"| [{methodInfo.ServiceMethod.Name}]({methodInfo.ServiceMethod.Name}.md) | " +
 								$"`{methodInfo.Method.ToString().ToUpperInvariant()} {methodInfo.Path}` | {methodInfo.ServiceMethod.Summary} |");
@@ -88,7 +88,7 @@ namespace Facility.CodeGen.Markdown
 						code.WriteLine();
 						code.WriteLine("| method | description |");
 						code.WriteLine("| --- | --- |");
-						foreach (var methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete()))
+						foreach (var methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete))
 							code.WriteLine($"| [{methodInfo.Name}]({methodInfo.Name}.md) | {methodInfo.Summary} |");
 					}
 				}
@@ -98,7 +98,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine();
 					code.WriteLine("| data | description |");
 					code.WriteLine("| --- | --- |");
-					foreach (var dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete()))
+					foreach (var dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete))
 						code.WriteLine($"| [{dtoInfo.Name}]({dtoInfo.Name}.md) | {dtoInfo.Summary} |");
 				}
 
@@ -107,7 +107,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine();
 					code.WriteLine("| enum | description |");
 					code.WriteLine("| --- | --- |");
-					foreach (var enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete()))
+					foreach (var enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete))
 						code.WriteLine($"| [{enumInfo.Name}]({enumInfo.Name}.md) | {enumInfo.Summary} |");
 				}
 
@@ -116,7 +116,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine();
 					code.WriteLine("| errors | description |");
 					code.WriteLine("| --- | --- |");
-					foreach (var errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete()))
+					foreach (var errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
 						code.WriteLine($"| [{errorSetInfo.Name}]({errorSetInfo.Name}.md) | {errorSetInfo.Summary} |");
 				}
 
@@ -124,9 +124,9 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private NamedText GenerateMethod(ServiceMethodInfo methodInfo, ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
+		private CodeGenFile GenerateMethod(ServiceMethodInfo methodInfo, ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
 		{
-			return CreateNamedText(methodInfo.Name + ".md", code =>
+			return CreateFile(methodInfo.Name + ".md", code =>
 			{
 				code.WriteLine($"## {methodInfo.Name}");
 
@@ -140,7 +140,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine("```");
 
 					code.WriteLine($"{httpMethodInfo.Method} {httpMethodInfo.Path}");
-					var queryFields = httpMethodInfo.QueryFields.Where(x => !x.ServiceField.IsObsolete()).ToList();
+					var queryFields = httpMethodInfo.QueryFields.Where(x => !x.ServiceField.IsObsolete).ToList();
 					for (int queryIndex = 0; queryIndex < queryFields.Count; queryIndex++)
 					{
 						var queryInfo = queryFields[queryIndex];
@@ -158,7 +158,7 @@ namespace Facility.CodeGen.Markdown
 					else if (httpMethodInfo.RequestNormalFields.Count != 0)
 					{
 						code.WriteLine("{");
-						var fields = httpMethodInfo.RequestNormalFields.Where(x => !x.ServiceField.IsObsolete()).ToList();
+						var fields = httpMethodInfo.RequestNormalFields.Where(x => !x.ServiceField.IsObsolete).ToList();
 						for (int fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
 						{
 							var fieldInfo = fields[fieldIndex].ServiceField;
@@ -192,7 +192,7 @@ namespace Facility.CodeGen.Markdown
 						else if (validResponse.NormalFields.Count != 0)
 						{
 							code.WriteLine("{");
-							var fields = validResponse.NormalFields.Where(x => !x.ServiceField.IsObsolete()).ToList();
+							var fields = validResponse.NormalFields.Where(x => !x.ServiceField.IsObsolete).ToList();
 							for (int fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
 							{
 								var fieldInfo = fields[fieldIndex].ServiceField;
@@ -207,7 +207,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine("```");
 				}
 
-				var requestFields = methodInfo.RequestFields.Where(x => !x.IsObsolete()).ToList();
+				var requestFields = methodInfo.RequestFields.Where(x => !x.IsObsolete).ToList();
 				if (requestFields.Count != 0)
 				{
 					code.WriteLine();
@@ -217,13 +217,13 @@ namespace Facility.CodeGen.Markdown
 						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo))} | {fieldInfo.Summary} |");
 				}
 
-				var responseFields = methodInfo.ResponseFields.Where(x => !x.IsObsolete()).ToList();
+				var responseFields = methodInfo.ResponseFields.Where(x => !x.IsObsolete).ToList();
 				if (responseFields.Count != 0)
 				{
 					code.WriteLine();
 					code.WriteLine("| response | type | description |");
 					code.WriteLine("| --- | --- | --- |");
-					foreach (var fieldInfo in responseFields.Where(x => !x.IsObsolete()))
+					foreach (var fieldInfo in responseFields.Where(x => !x.IsObsolete))
 						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo))} | {fieldInfo.Summary} |");
 				}
 
@@ -233,16 +233,16 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private NamedText GenerateDto(ServiceDtoInfo dtoInfo, ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
+		private CodeGenFile GenerateDto(ServiceDtoInfo dtoInfo, ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
 		{
-			return CreateNamedText(dtoInfo.Name + ".md", code =>
+			return CreateFile(dtoInfo.Name + ".md", code =>
 			{
 				code.WriteLine($"## {dtoInfo.Name}");
 
 				code.WriteLine();
 				code.WriteLine(dtoInfo.Summary);
 
-				var fields = dtoInfo.Fields.Where(x => !x.IsObsolete()).ToList();
+				var fields = dtoInfo.Fields.Where(x => !x.IsObsolete).ToList();
 
 				if (httpServiceInfo != null)
 				{
@@ -275,9 +275,9 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private NamedText GenerateEnum(ServiceEnumInfo enumInfo)
+		private CodeGenFile GenerateEnum(ServiceEnumInfo enumInfo)
 		{
-			return CreateNamedText(enumInfo.Name + ".md", code =>
+			return CreateFile(enumInfo.Name + ".md", code =>
 			{
 				code.WriteLine($"## {enumInfo.Name}");
 
@@ -289,7 +289,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine();
 					code.WriteLine("| name | description |");
 					code.WriteLine("| --- | --- |");
-					foreach (var enumValue in enumInfo.Values.Where(x => !x.IsObsolete()))
+					foreach (var enumValue in enumInfo.Values.Where(x => !x.IsObsolete))
 						code.WriteLine($"| {enumValue.Name} | {enumValue.Summary} |");
 				}
 
@@ -299,9 +299,9 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private NamedText GenerateErrorSet(ServiceErrorSetInfo errorSetInfo)
+		private CodeGenFile GenerateErrorSet(ServiceErrorSetInfo errorSetInfo)
 		{
-			return CreateNamedText(errorSetInfo.Name + ".md", code =>
+			return CreateFile(errorSetInfo.Name + ".md", code =>
 			{
 				code.WriteLine($"## {errorSetInfo.Name}");
 
@@ -313,7 +313,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine();
 					code.WriteLine("| error | description |");
 					code.WriteLine("| --- | --- |");
-					foreach (var errorInfo in errorSetInfo.Errors.Where(x => !x.IsObsolete()))
+					foreach (var errorInfo in errorSetInfo.Errors.Where(x => !x.IsObsolete))
 						code.WriteLine($"| {errorInfo.Name} | {errorInfo.Summary} |");
 				}
 
@@ -360,14 +360,14 @@ namespace Facility.CodeGen.Markdown
 
 		private string RenderDtoAsJsonValue(ServiceDtoInfo dtoInfo)
 		{
-			var visibleFields = dtoInfo.Fields.Where(x => !x.IsObsolete()).ToList();
+			var visibleFields = dtoInfo.Fields.Where(x => !x.IsObsolete).ToList();
 			return visibleFields.Count == 0 ? "{}" : $"{{ \"{visibleFields[0].Name}\": ... }}";
 		}
 
 		private string RenderEnumAsJsonValue(ServiceEnumInfo enumInfo)
 		{
 			const int maxValues = 3;
-			var values = enumInfo.Values.Where(x => !x.IsObsolete()).ToList();
+			var values = enumInfo.Values.Where(x => !x.IsObsolete).ToList();
 			return values.Count == 1 ? $"\"{values[0].Name}\"" :
 				"\"(" + string.Join("|", values.Select(x => x.Name).Take(maxValues)) + (values.Count > maxValues ? "|..." : "") + ")\"";
 		}
