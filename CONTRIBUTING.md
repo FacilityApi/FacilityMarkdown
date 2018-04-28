@@ -1,4 +1,4 @@
-# Contributing to FacilityMarkdown
+# Contributing
 
 ## Prerequisites
 
@@ -13,6 +13,4 @@
 
 ## How to Build
 
-* Clone the repository: `git clone https://github.com/FacilityApi/FacilityMarkdown.git`
-* `cd FacilityMarkdown`
-* `.\build.ps1 --target=Test` or `./build.sh --target=Test`
+Clone the repository and run `.\build.ps1` or `./build.sh`
