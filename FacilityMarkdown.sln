@@ -9,12 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
-		build.cake = build.cake
-		build.ps1 = build.ps1
+		build.cmd = build.cmd
 		build.sh = build.sh
 		CONTRIBUTING.md = CONTRIBUTING.md
-		src\Directory.Build.props = src\Directory.Build.props
-		example\ExampleApi.fsd = example\ExampleApi.fsd
 		LICENSE = LICENSE
 		README.md = README.md
 		VersionHistory.md = VersionHistory.md
@@ -25,6 +22,26 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.CodeGen.Markdown", "src\Facility.CodeGen.Markdown\Facility.CodeGen.Markdown.csproj", "{46EB4760-9AF9-429F-BCFA-47323E61508E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.CodeGen.Markdown.UnitTests", "tests\Facility.CodeGen.Markdown.UnitTests\Facility.CodeGen.Markdown.UnitTests.csproj", "{E58F26CF-5686-4615-A53E-AD6A45BC7F5B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{948CADF7-7F10-49B5-B639-78D4F3D7501C}"
+	ProjectSection(SolutionItems) = preProject
+		example\ExampleApi.fsd = example\ExampleApi.fsd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9A804099-4ACF-452D-BBF9-6454095B3FE0}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{333BD451-53C3-47DA-9E9D-85DDBB039F88}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A5961397-EEE0-4A06-8C2B-221983B2E56F}"
+	ProjectSection(SolutionItems) = preProject
+		tools\Directory.Build.props = tools\Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +64,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{948CADF7-7F10-49B5-B639-78D4F3D7501C} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
+		{9A804099-4ACF-452D-BBF9-6454095B3FE0} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
+		{333BD451-53C3-47DA-9E9D-85DDBB039F88} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
+		{A5961397-EEE0-4A06-8C2B-221983B2E56F} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA6D63A9-6DCC-47C6-A7D0-6B49EE3EA04C}
