@@ -16,6 +16,14 @@ namespace Facility.CodeGen.Markdown
 	public sealed class MarkdownGenerator : CodeGenerator
 	{
 		/// <summary>
+		/// Generates Markdown.
+		/// </summary>
+		/// <param name="settings">The settings.</param>
+		/// <returns>The number of updated files.</returns>
+		public static int GenerateMarkdown(MarkdownGeneratorSettings settings) =>
+			FileGenerator.GenerateFiles(new MarkdownGenerator { GeneratorName = nameof(MarkdownGenerator) }, settings);
+
+		/// <summary>
 		/// True if the HTTP documentation should be omitted.
 		/// </summary>
 		public bool NoHttp { get; set; }
@@ -23,7 +31,7 @@ namespace Facility.CodeGen.Markdown
 		/// <summary>
 		/// Generates the Markdown.
 		/// </summary>
-		protected override CodeGenOutput GenerateOutputCore(ServiceInfo serviceInfo)
+		public override CodeGenOutput GenerateOutput(ServiceInfo serviceInfo)
 		{
 			var outputFiles = new List<CodeGenFile>();
 
@@ -50,6 +58,19 @@ namespace Facility.CodeGen.Markdown
 			};
 			return new CodeGenOutput(outputFiles, patternsToClean);
 		}
+
+		/// <summary>
+		/// Applies generator-specific settings.
+		/// </summary>
+		public override void ApplySettings(FileGeneratorSettings settings)
+		{
+			NoHttp = ((MarkdownGeneratorSettings) settings).NoHttp;
+		}
+
+		/// <summary>
+		/// Patterns to clean are returned with the output.
+		/// </summary>
+		public override bool HasPatternsToClean => true;
 
 		private CodeGenFile GenerateService(ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
 		{

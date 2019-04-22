@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using ArgsReading;
 using Facility.CodeGen.Console;
 using Facility.CodeGen.Markdown;
@@ -20,18 +20,13 @@ namespace fsdgenmd
 
 		protected override IReadOnlyList<string> ExtraUsage => new[]
 		{
-			"   --nohttp",
+			"   --no-http",
 			"      Omit HTTP documentation.",
 		};
 
-		protected override CodeGenerator CreateGenerator(ArgsReader args)
-		{
-			return new MarkdownGenerator
-			{
-				NoHttp = args.ReadFlag("nohttp"),
-			};
-		}
+		protected override CodeGenerator CreateGenerator() => new MarkdownGenerator();
 
-		protected override bool SupportsClean => true;
+		protected override FileGeneratorSettings CreateSettings(ArgsReader args) =>
+			new MarkdownGeneratorSettings { NoHttp = args.ReadFlag("no-http") };
 	}
 }
