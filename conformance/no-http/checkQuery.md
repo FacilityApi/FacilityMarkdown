@@ -1,4 +1,4 @@
-## checkQuery
+# checkQuery
 
 
 | request | type | description |

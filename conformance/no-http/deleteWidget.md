@@ -1,4 +1,4 @@
-## deleteWidget
+# deleteWidget
 
 Deletes the specified widget.
 

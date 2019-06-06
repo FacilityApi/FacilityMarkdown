@@ -1,4 +1,4 @@
-## checkPath
+# checkPath
 
 
 | request | type | description |

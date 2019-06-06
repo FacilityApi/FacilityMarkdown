@@ -1,4 +1,4 @@
-## getWidgets
+# getWidgets
 
 Gets widgets.
 

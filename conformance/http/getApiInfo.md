@@ -1,4 +1,4 @@
-## getApiInfo
+# getApiInfo
 
 Gets API information.
 

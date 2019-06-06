@@ -78,7 +78,7 @@ namespace Facility.CodeGen.Markdown
 
 			return CreateFile("README.md", code =>
 			{
-				code.WriteLine($"## {serviceName}");
+				code.WriteLine($"# {serviceName}");
 
 				code.WriteLine();
 				WriteSummary(code, serviceInfo.Summary);
@@ -149,7 +149,7 @@ namespace Facility.CodeGen.Markdown
 		{
 			return CreateFile(methodInfo.Name + ".md", code =>
 			{
-				code.WriteLine($"## {methodInfo.Name}");
+				code.WriteLine($"# {methodInfo.Name}");
 
 				code.WriteLine();
 				WriteSummary(code, methodInfo.Summary);
@@ -258,7 +258,7 @@ namespace Facility.CodeGen.Markdown
 		{
 			return CreateFile(dtoInfo.Name + ".md", code =>
 			{
-				code.WriteLine($"## {dtoInfo.Name}");
+				code.WriteLine($"# {dtoInfo.Name}");
 
 				code.WriteLine();
 				code.WriteLine(dtoInfo.Summary);
@@ -300,7 +300,7 @@ namespace Facility.CodeGen.Markdown
 		{
 			return CreateFile(enumInfo.Name + ".md", code =>
 			{
-				code.WriteLine($"## {enumInfo.Name}");
+				code.WriteLine($"# {enumInfo.Name}");
 
 				code.WriteLine();
 				code.WriteLine(enumInfo.Summary);
@@ -324,7 +324,7 @@ namespace Facility.CodeGen.Markdown
 		{
 			return CreateFile(errorSetInfo.Name + ".md", code =>
 			{
-				code.WriteLine($"## {errorSetInfo.Name}");
+				code.WriteLine($"# {errorSetInfo.Name}");
 
 				code.WriteLine();
 				code.WriteLine(errorSetInfo.Summary);

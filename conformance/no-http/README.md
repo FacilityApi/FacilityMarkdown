@@ -1,4 +1,4 @@
-## ConformanceApi
+# ConformanceApi
 
 API for a Facility test server.
 

@@ -1,4 +1,4 @@
-## createWidget
+# createWidget
 
 Creates a new widget.
 

@@ -1,4 +1,4 @@
-## getWidget
+# getWidget
 
 Gets the specified widget.
 

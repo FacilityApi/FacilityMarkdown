@@ -1,4 +1,4 @@
-## getWidgetBatch
+# getWidgetBatch
 
 Gets the specified widgets.
 

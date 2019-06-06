@@ -1,4 +1,4 @@
-## ApiErrors
+# ApiErrors
 
 Custom errors.
 
