@@ -46,10 +46,10 @@ namespace Facility.CodeGen.Markdown
 				outputFiles.Add(GenerateDto(dtoInfo, serviceInfo, httpServiceInfo));
 
 			foreach (ServiceEnumInfo enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete))
-				outputFiles.Add(GenerateEnum(enumInfo));
+				outputFiles.Add(GenerateEnum(enumInfo, serviceInfo));
 
 			foreach (ServiceErrorSetInfo errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
-				outputFiles.Add(GenerateErrorSet(errorSetInfo));
+				outputFiles.Add(GenerateErrorSet(errorSetInfo, serviceInfo));
 
 			string codeGenComment = CodeGenUtility.GetCodeGenComment(GeneratorName);
 			var patternsToClean = new[]
@@ -76,7 +76,7 @@ namespace Facility.CodeGen.Markdown
 		{
 			string serviceName = serviceInfo.Name;
 
-			return CreateFile("README.md", code =>
+			return CreateFile($"{serviceName}.md", code =>
 			{
 				code.WriteLine($"# {serviceName}");
 
@@ -100,7 +100,7 @@ namespace Facility.CodeGen.Markdown
 						code.WriteLine("| --- | --- | --- |");
 						foreach (var methodInfo in httpServiceInfo.Methods.Where(x => !x.ServiceMethod.IsObsolete))
 						{
-							code.WriteLine($"| [{methodInfo.ServiceMethod.Name}]({methodInfo.ServiceMethod.Name}.md) | " +
+							code.WriteLine($"| [{methodInfo.ServiceMethod.Name}]({serviceName}/{methodInfo.ServiceMethod.Name}.md) | " +
 								$"`{methodInfo.Method.ToString().ToUpperInvariant()} {methodInfo.Path}` | {methodInfo.ServiceMethod.Summary} |");
 						}
 					}
@@ -110,7 +110,7 @@ namespace Facility.CodeGen.Markdown
 						code.WriteLine("| method | description |");
 						code.WriteLine("| --- | --- |");
 						foreach (var methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete))
-							code.WriteLine($"| [{methodInfo.Name}]({methodInfo.Name}.md) | {methodInfo.Summary} |");
+							code.WriteLine($"| [{methodInfo.Name}]({serviceName}/{methodInfo.Name}.md) | {methodInfo.Summary} |");
 					}
 				}
 
@@ -120,7 +120,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine("| data | description |");
 					code.WriteLine("| --- | --- |");
 					foreach (var dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete))
-						code.WriteLine($"| [{dtoInfo.Name}]({dtoInfo.Name}.md) | {dtoInfo.Summary} |");
+						code.WriteLine($"| [{dtoInfo.Name}]({serviceName}/{dtoInfo.Name}.md) | {dtoInfo.Summary} |");
 				}
 
 				if (serviceInfo.Enums.Count != 0)
@@ -129,7 +129,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine("| enum | description |");
 					code.WriteLine("| --- | --- |");
 					foreach (var enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete))
-						code.WriteLine($"| [{enumInfo.Name}]({enumInfo.Name}.md) | {enumInfo.Summary} |");
+						code.WriteLine($"| [{enumInfo.Name}]({serviceName}/{enumInfo.Name}.md) | {enumInfo.Summary} |");
 				}
 
 				if (serviceInfo.ErrorSets.Count != 0)
@@ -138,7 +138,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine("| errors | description |");
 					code.WriteLine("| --- | --- |");
 					foreach (var errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
-						code.WriteLine($"| [{errorSetInfo.Name}]({errorSetInfo.Name}.md) | {errorSetInfo.Summary} |");
+						code.WriteLine($"| [{errorSetInfo.Name}]({serviceName}/{errorSetInfo.Name}.md) | {errorSetInfo.Summary} |");
 				}
 
 				WriteCodeGenComment(code);
@@ -147,7 +147,9 @@ namespace Facility.CodeGen.Markdown
 
 		private CodeGenFile GenerateMethod(ServiceMethodInfo methodInfo, ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
 		{
-			return CreateFile(methodInfo.Name + ".md", code =>
+			string serviceName = serviceInfo.Name;
+
+			return CreateFile($"{serviceName}/{methodInfo.Name}.md", code =>
 			{
 				code.WriteLine($"# {methodInfo.Name}");
 
@@ -256,7 +258,9 @@ namespace Facility.CodeGen.Markdown
 
 		private CodeGenFile GenerateDto(ServiceDtoInfo dtoInfo, ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
 		{
-			return CreateFile(dtoInfo.Name + ".md", code =>
+			string serviceName = serviceInfo.Name;
+
+			return CreateFile($"{serviceName}/{dtoInfo.Name}.md", code =>
 			{
 				code.WriteLine($"# {dtoInfo.Name}");
 
@@ -296,9 +300,11 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private CodeGenFile GenerateEnum(ServiceEnumInfo enumInfo)
+		private CodeGenFile GenerateEnum(ServiceEnumInfo enumInfo, ServiceInfo serviceInfo)
 		{
-			return CreateFile(enumInfo.Name + ".md", code =>
+			string serviceName = serviceInfo.Name;
+
+			return CreateFile($"{serviceName}/{enumInfo.Name}.md", code =>
 			{
 				code.WriteLine($"# {enumInfo.Name}");
 
@@ -320,9 +326,11 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private CodeGenFile GenerateErrorSet(ServiceErrorSetInfo errorSetInfo)
+		private CodeGenFile GenerateErrorSet(ServiceErrorSetInfo errorSetInfo, ServiceInfo serviceInfo)
 		{
-			return CreateFile(errorSetInfo.Name + ".md", code =>
+			string serviceName = serviceInfo.Name;
+
+			return CreateFile($"{serviceName}/{errorSetInfo.Name}.md", code =>
 			{
 				code.WriteLine($"# {errorSetInfo.Name}");
 
