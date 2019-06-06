@@ -17,10 +17,12 @@ internal static class Build
 
 		var dotNetBuildSettings = new DotNetBuildSettings
 		{
+			NuGetApiKey = Environment.GetEnvironmentVariable("NUGET_API_KEY"),
 			DocsSettings = new DotNetDocsSettings
 			{
 				GitLogin = new GitLoginInfo("FacilityApiBot", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? ""),
 				GitAuthor = new GitAuthorInfo("FacilityApiBot", "facilityapi@gmail.com"),
+				GitBranchName = Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH"),
 				SourceCodeUrl = "https://github.com/FacilityApi/RepoName/tree/master/src",
 			},
 			DotNetTools = dotNetTools,
@@ -55,7 +57,7 @@ internal static class Build
 
 			string verifyOption = verify ? "--verify" : null;
 
-			RunApp(toolPath, "example/ExampleApi.fsd", "example/docs/", verifyOption);
+			RunApp(toolPath, "example/ExampleApi.fsd", "example/docs/", "--newline", "lf", verifyOption);
 		}
 	});
 }
