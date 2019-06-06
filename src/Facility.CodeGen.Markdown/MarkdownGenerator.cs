@@ -83,8 +83,6 @@ namespace Facility.CodeGen.Markdown
 				code.WriteLine();
 				WriteSummary(code, serviceInfo.Summary);
 
-				WriteRemarks(code, serviceInfo.Remarks);
-
 				if (httpServiceInfo?.Url != null)
 				{
 					code.WriteLine();
@@ -140,6 +138,8 @@ namespace Facility.CodeGen.Markdown
 					foreach (var errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
 						code.WriteLine($"| [{errorSetInfo.Name}]({serviceName}/{errorSetInfo.Name}.md) | {errorSetInfo.Summary} |");
 				}
+
+				WriteRemarks(code, serviceInfo.Remarks);
 
 				WriteCodeGenComment(code);
 			});
