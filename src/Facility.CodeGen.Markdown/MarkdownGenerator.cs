@@ -35,7 +35,7 @@ namespace Facility.CodeGen.Markdown
 		{
 			var outputFiles = new List<CodeGenFile>();
 
-			var httpServiceInfo = HttpServiceInfo.Create(serviceInfo);
+			var httpServiceInfo = NoHttp ? null : HttpServiceInfo.Create(serviceInfo);
 
 			outputFiles.Add(GenerateService(serviceInfo, httpServiceInfo));
 
