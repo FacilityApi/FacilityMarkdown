@@ -7,6 +7,9 @@ Describe changes here when they're committed to the `master` branch. To publish,
 Prefix the description of the change with `[major]`, `[minor]`, or `[patch]` in accordance with [Semantic Versioning](https://semver.org/).
 
 * [major] Upgrade to .NET Standard 2.0 and .NET 4.6.1. Upgrade NuGet dependencies.
+* [major] Convert `fsdgenmd` to a .NET Core Global Tool.
+* [minor] Support static `MarkdownGenerator.GenerateMarkdown` for C# build scripts.
+* [patch] Leverage `FacilityConformance` tool.
 
 ## Released
 
