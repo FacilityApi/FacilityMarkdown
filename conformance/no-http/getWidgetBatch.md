@@ -2,16 +2,9 @@
 
 Gets the specified widgets.
 
-```
-POST /widgets/get
-(ids)
---- 200 OK
-(results)
-```
-
 | request | type | description |
 | --- | --- | --- |
-| ids | string[] | The IDs of the widgets to return. |
+| ids | int32[] | The IDs of the widgets to return. |
 
 | response | type | description |
 | --- | --- | --- |

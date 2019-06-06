@@ -23,11 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.CodeGen.Markdown",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.CodeGen.Markdown.UnitTests", "tests\Facility.CodeGen.Markdown.UnitTests\Facility.CodeGen.Markdown.UnitTests.csproj", "{E58F26CF-5686-4615-A53E-AD6A45BC7F5B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{948CADF7-7F10-49B5-B639-78D4F3D7501C}"
-	ProjectSection(SolutionItems) = preProject
-		example\ExampleApi.fsd = example\ExampleApi.fsd
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9A804099-4ACF-452D-BBF9-6454095B3FE0}"
 	ProjectSection(SolutionItems) = preProject
 		src\Directory.Build.props = src\Directory.Build.props
@@ -44,6 +39,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A5961397
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "tools\Build\Build.csproj", "{C24F59DA-ACFC-423B-939A-015FE7CA24CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "conformance", "conformance", "{1B7C49DC-195D-4A5D-8932-112F87A57207}"
+	ProjectSection(SolutionItems) = preProject
+		conformance\ConformanceApi.fsd = conformance\ConformanceApi.fsd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,10 +72,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{948CADF7-7F10-49B5-B639-78D4F3D7501C} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
 		{9A804099-4ACF-452D-BBF9-6454095B3FE0} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
 		{333BD451-53C3-47DA-9E9D-85DDBB039F88} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
 		{A5961397-EEE0-4A06-8C2B-221983B2E56F} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
+		{1B7C49DC-195D-4A5D-8932-112F87A57207} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA6D63A9-6DCC-47C6-A7D0-6B49EE3EA04C}

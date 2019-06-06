@@ -12,7 +12,7 @@ namespace Facility.CodeGen.Markdown.UnitTests
 		public void GenerateExampleApiSuccess()
 		{
 			ServiceInfo service;
-			const string fileName = "Facility.CodeGen.Markdown.UnitTests.ExampleApi.fsd";
+			const string fileName = "Facility.CodeGen.Markdown.UnitTests.ConformanceApi.fsd";
 			var parser = new FsdParser();
 			var stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream(fileName);
 			Assert.IsNotNull(stream);
@@ -23,6 +23,9 @@ namespace Facility.CodeGen.Markdown.UnitTests
 			{
 				GeneratorName = "MarkdownGeneratorTests",
 			};
+			generator.GenerateOutput(service);
+
+			generator.NoHttp = true;
 			generator.GenerateOutput(service);
 		}
 	}

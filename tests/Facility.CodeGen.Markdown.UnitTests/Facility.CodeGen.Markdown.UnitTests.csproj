@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\example\ExampleApi.fsd" Link="ExampleApi.fsd" />
+    <EmbeddedResource Include="..\..\conformance\ConformanceApi.fsd" Link="ConformanceApi.fsd" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,6 +11,8 @@ internal static class Build
 {
 	public static int Main(string[] args) => BuildRunner.Execute(args, build =>
 	{
+		var conformanceVersion = "2.0.2-alpha8";
+
 		var codegen = "fsdgenmd";
 
 		var dotNetTools = new DotNetTools(Path.Combine("tools", "bin")).AddSource(Path.Combine("tools", "bin"));
@@ -46,6 +48,11 @@ internal static class Build
 
 		void codeGen(bool verify)
 		{
+			string verifyOption = verify ? "--verify" : null;
+
+			var conformanceToolPath = dotNetTools.GetToolPath($"FacilityConformance/{conformanceVersion}");
+			RunApp(conformanceToolPath, "fsd", "--output", "conformance/ConformanceApi.fsd", verifyOption);
+
 			string configuration = dotNetBuildSettings.BuildOptions.ConfigurationOption.Value;
 			string versionSuffix = $"cg{DateTime.UtcNow:yyyyMMddHHmmss}";
 			RunDotNet("pack", Path.Combine("src", codegen, $"{codegen}.csproj"), "-c", configuration, "--no-build",
@@ -55,9 +62,8 @@ internal static class Build
 			string packageVersion = Regex.Match(packagePath, @"[/\\][^/\\]*\.([0-9]+\.[0-9]+\.[0-9]+(-.+)?)\.nupkg$").Groups[1].Value;
 			string toolPath = dotNetTools.GetToolPath($"{codegen}/{packageVersion}");
 
-			string verifyOption = verify ? "--verify" : null;
-
-			RunApp(toolPath, "example/ExampleApi.fsd", "example/docs/", "--newline", "lf", verifyOption);
+			RunApp(toolPath, "conformance/ConformanceApi.fsd", "conformance/http/", "--newline", "lf", verifyOption);
+			RunApp(toolPath, "conformance/ConformanceApi.fsd", "conformance/no-http/", "--no-http", "--newline", "lf", verifyOption);
 		}
 	});
 }
