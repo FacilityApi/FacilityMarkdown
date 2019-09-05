@@ -3,11 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <RootNamespace />
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Faithlife.Build" Version="3.7.0" />
+    <ProjectReference Include="..\..\src\Facility.CodeGen.Markdown\Facility.CodeGen.Markdown.csproj" />
   </ItemGroup>
 
 </Project>

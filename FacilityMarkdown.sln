@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.cmd = build.cmd
 		build.sh = build.sh
 		CONTRIBUTING.md = CONTRIBUTING.md
+		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
 		README.md = README.md
 		VersionHistory.md = VersionHistory.md
@@ -23,27 +24,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.CodeGen.Markdown",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facility.CodeGen.Markdown.UnitTests", "tests\Facility.CodeGen.Markdown.UnitTests\Facility.CodeGen.Markdown.UnitTests.csproj", "{E58F26CF-5686-4615-A53E-AD6A45BC7F5B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9A804099-4ACF-452D-BBF9-6454095B3FE0}"
-	ProjectSection(SolutionItems) = preProject
-		src\Directory.Build.props = src\Directory.Build.props
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{333BD451-53C3-47DA-9E9D-85DDBB039F88}"
-	ProjectSection(SolutionItems) = preProject
-		tests\Directory.Build.props = tests\Directory.Build.props
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A5961397-EEE0-4A06-8C2B-221983B2E56F}"
-	ProjectSection(SolutionItems) = preProject
-		tools\Directory.Build.props = tools\Directory.Build.props
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "tools\Build\Build.csproj", "{C24F59DA-ACFC-423B-939A-015FE7CA24CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "conformance", "conformance", "{1B7C49DC-195D-4A5D-8932-112F87A57207}"
 	ProjectSection(SolutionItems) = preProject
 		conformance\ConformanceApi.fsd = conformance\ConformanceApi.fsd
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlDocTarget", "tools\XmlDocTarget\XmlDocTarget.csproj", "{172B42AB-B9C8-460F-900D-70794A2FB9E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,14 +55,15 @@ Global
 		{C24F59DA-ACFC-423B-939A-015FE7CA24CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C24F59DA-ACFC-423B-939A-015FE7CA24CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C24F59DA-ACFC-423B-939A-015FE7CA24CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{172B42AB-B9C8-460F-900D-70794A2FB9E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{172B42AB-B9C8-460F-900D-70794A2FB9E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{172B42AB-B9C8-460F-900D-70794A2FB9E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{172B42AB-B9C8-460F-900D-70794A2FB9E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9A804099-4ACF-452D-BBF9-6454095B3FE0} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
-		{333BD451-53C3-47DA-9E9D-85DDBB039F88} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
-		{A5961397-EEE0-4A06-8C2B-221983B2E56F} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
 		{1B7C49DC-195D-4A5D-8932-112F87A57207} = {A219E328-B15A-41FF-BAA5-5F46679EF9C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
