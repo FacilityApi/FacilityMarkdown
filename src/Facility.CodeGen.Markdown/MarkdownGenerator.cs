@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using Facility.Definition;
 using Facility.Definition.CodeGen;
@@ -39,19 +38,19 @@ namespace Facility.CodeGen.Markdown
 
 			outputFiles.Add(GenerateService(serviceInfo, httpServiceInfo));
 
-			foreach (ServiceMethodInfo methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete))
+			foreach (var methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateMethod(methodInfo, serviceInfo, httpServiceInfo));
 
-			foreach (ServiceDtoInfo dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete))
+			foreach (var dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateDto(dtoInfo, serviceInfo, httpServiceInfo));
 
-			foreach (ServiceEnumInfo enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete))
+			foreach (var enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateEnum(enumInfo, serviceInfo));
 
-			foreach (ServiceErrorSetInfo errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
+			foreach (var errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateErrorSet(errorSetInfo, serviceInfo));
 
-			string codeGenComment = CodeGenUtility.GetCodeGenComment(GeneratorName);
+			var codeGenComment = CodeGenUtility.GetCodeGenComment(GeneratorName ?? "");
 			var patternsToClean = new[]
 			{
 				new CodeGenPattern("*.md", codeGenComment),
@@ -72,9 +71,9 @@ namespace Facility.CodeGen.Markdown
 		/// </summary>
 		public override bool HasPatternsToClean => true;
 
-		private CodeGenFile GenerateService(ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
+		private CodeGenFile GenerateService(ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
 		{
-			string serviceName = serviceInfo.Name;
+			var serviceName = serviceInfo.Name;
 
 			return CreateFile($"{serviceName}.md", code =>
 			{
@@ -99,7 +98,7 @@ namespace Facility.CodeGen.Markdown
 						foreach (var methodInfo in httpServiceInfo.Methods.Where(x => !x.ServiceMethod.IsObsolete))
 						{
 							code.WriteLine($"| [{methodInfo.ServiceMethod.Name}]({serviceName}/{methodInfo.ServiceMethod.Name}.md) | " +
-								$"`{methodInfo.Method.ToString().ToUpperInvariant()} {methodInfo.Path}` | {methodInfo.ServiceMethod.Summary} |");
+								$"`{methodInfo.Method.ToUpperInvariant()} {methodInfo.Path}` | {methodInfo.ServiceMethod.Summary} |");
 						}
 					}
 					else
@@ -145,9 +144,9 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private CodeGenFile GenerateMethod(ServiceMethodInfo methodInfo, ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
+		private CodeGenFile GenerateMethod(ServiceMethodInfo methodInfo, ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
 		{
-			string serviceName = serviceInfo.Name;
+			var serviceName = serviceInfo.Name;
 
 			return CreateFile($"{serviceName}/{methodInfo.Name}.md", code =>
 			{
@@ -164,10 +163,10 @@ namespace Facility.CodeGen.Markdown
 
 					code.WriteLine($"{httpMethodInfo.Method} {httpMethodInfo.Path}");
 					var queryFields = httpMethodInfo.QueryFields.Where(x => !x.ServiceField.IsObsolete).ToList();
-					for (int queryIndex = 0; queryIndex < queryFields.Count; queryIndex++)
+					for (var queryIndex = 0; queryIndex < queryFields.Count; queryIndex++)
 					{
 						var queryInfo = queryFields[queryIndex];
-						string prefix = queryIndex == 0 ? "?" : "&";
+						var prefix = queryIndex == 0 ? "?" : "&";
 						code.WriteLine($"  {prefix}{queryInfo.Name}={{{queryInfo.ServiceField.Name}}}");
 					}
 
@@ -182,11 +181,11 @@ namespace Facility.CodeGen.Markdown
 					{
 						code.WriteLine("{");
 						var fields = httpMethodInfo.RequestNormalFields.Where(x => !x.ServiceField.IsObsolete).ToList();
-						for (int fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
+						for (var fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
 						{
 							var fieldInfo = fields[fieldIndex].ServiceField;
-							string jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo));
-							string suffix = fieldIndex == fields.Count - 1 ? "" : ",";
+							var jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo)!);
+							var suffix = fieldIndex == fields.Count - 1 ? "" : ",";
 							code.WriteLine($"  \"{fieldInfo.Name}\": {jsonValue}{suffix}");
 						}
 						code.WriteLine("}");
@@ -201,26 +200,26 @@ namespace Facility.CodeGen.Markdown
 
 					foreach (var validResponse in httpMethodInfo.ValidResponses)
 					{
-						HttpStatusCode statusCode = validResponse.StatusCode;
-						string statusCodeString = ((int) statusCode).ToString(CultureInfo.InvariantCulture);
-						s_reasonPhrases.TryGetValue(statusCodeString, out string reasonPhrase);
+						var statusCode = validResponse.StatusCode;
+						var statusCodeString = ((int) statusCode).ToString(CultureInfo.InvariantCulture);
+						s_reasonPhrases.TryGetValue(statusCodeString, out var reasonPhrase);
 
 						code.WriteLine($"--- {statusCodeString} {reasonPhrase}");
 
 						if (validResponse.BodyField != null)
 						{
-							string prefix = serviceInfo.GetFieldType(validResponse.BodyField.ServiceField).Kind == ServiceTypeKind.Boolean ? "if " : "";
+							var prefix = serviceInfo.GetFieldType(validResponse.BodyField.ServiceField)!.Kind == ServiceTypeKind.Boolean ? "if " : "";
 							code.WriteLine($"({prefix}{validResponse.BodyField.ServiceField.Name})");
 						}
-						else if (validResponse.NormalFields.Count != 0)
+						else if (validResponse.NormalFields!.Count != 0)
 						{
 							code.WriteLine("{");
 							var fields = validResponse.NormalFields.Where(x => !x.ServiceField.IsObsolete).ToList();
-							for (int fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
+							for (var fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
 							{
 								var fieldInfo = fields[fieldIndex].ServiceField;
-								string jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo));
-								string suffix = fieldIndex == fields.Count - 1 ? "" : ",";
+								var jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo)!);
+								var suffix = fieldIndex == fields.Count - 1 ? "" : ",";
 								code.WriteLine($"  \"{fieldInfo.Name}\": {jsonValue}{suffix}");
 							}
 							code.WriteLine("}");
@@ -237,7 +236,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine("| request | type | description |");
 					code.WriteLine("| --- | --- | --- |");
 					foreach (var fieldInfo in requestFields)
-						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo))} | {fieldInfo.Summary} |");
+						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo)!)} | {fieldInfo.Summary} |");
 				}
 
 				var responseFields = methodInfo.ResponseFields.Where(x => !x.IsObsolete).ToList();
@@ -247,7 +246,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine("| response | type | description |");
 					code.WriteLine("| --- | --- | --- |");
 					foreach (var fieldInfo in responseFields.Where(x => !x.IsObsolete))
-						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo))} | {fieldInfo.Summary} |");
+						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo)!)} | {fieldInfo.Summary} |");
 				}
 
 				WriteRemarks(code, methodInfo.Remarks);
@@ -256,9 +255,9 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private CodeGenFile GenerateDto(ServiceDtoInfo dtoInfo, ServiceInfo serviceInfo, HttpServiceInfo httpServiceInfo)
+		private CodeGenFile GenerateDto(ServiceDtoInfo dtoInfo, ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
 		{
-			string serviceName = serviceInfo.Name;
+			var serviceName = serviceInfo.Name;
 
 			return CreateFile($"{serviceName}/{dtoInfo.Name}.md", code =>
 			{
@@ -274,11 +273,11 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine();
 					code.WriteLine("```");
 					code.WriteLine("{");
-					for (int fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
+					for (var fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
 					{
 						var fieldInfo = fields[fieldIndex];
-						string jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo));
-						string suffix = fieldIndex == fields.Count - 1 ? "" : ",";
+						var jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo)!);
+						var suffix = fieldIndex == fields.Count - 1 ? "" : ",";
 						code.WriteLine($"  \"{fieldInfo.Name}\": {jsonValue}{suffix}");
 					}
 					code.WriteLine("}");
@@ -291,7 +290,7 @@ namespace Facility.CodeGen.Markdown
 					code.WriteLine("| field | type | description |");
 					code.WriteLine("| --- | --- | --- |");
 					foreach (var fieldInfo in fields)
-						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo))} | {fieldInfo.Summary} |");
+						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo)!)} | {fieldInfo.Summary} |");
 				}
 
 				WriteRemarks(code, dtoInfo.Remarks);
@@ -302,7 +301,7 @@ namespace Facility.CodeGen.Markdown
 
 		private CodeGenFile GenerateEnum(ServiceEnumInfo enumInfo, ServiceInfo serviceInfo)
 		{
-			string serviceName = serviceInfo.Name;
+			var serviceName = serviceInfo.Name;
 
 			return CreateFile($"{serviceName}/{enumInfo.Name}.md", code =>
 			{
@@ -328,7 +327,7 @@ namespace Facility.CodeGen.Markdown
 
 		private CodeGenFile GenerateErrorSet(ServiceErrorSetInfo errorSetInfo, ServiceInfo serviceInfo)
 		{
-			string serviceName = serviceInfo.Name;
+			var serviceName = serviceInfo.Name;
 
 			return CreateFile($"{serviceName}/{errorSetInfo.Name}.md", code =>
 			{
@@ -373,15 +372,15 @@ namespace Facility.CodeGen.Markdown
 			case ServiceTypeKind.Error:
 				return "{ \"code\": ... }";
 			case ServiceTypeKind.Dto:
-				return RenderDtoAsJsonValue(typeInfo.Dto);
+				return RenderDtoAsJsonValue(typeInfo.Dto!);
 			case ServiceTypeKind.Enum:
-				return RenderEnumAsJsonValue(typeInfo.Enum);
+				return RenderEnumAsJsonValue(typeInfo.Enum!);
 			case ServiceTypeKind.Result:
-				return $"{{ \"value\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType)} | \"error\": {{ \"code\": ... }} }}";
+				return $"{{ \"value\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)} | \"error\": {{ \"code\": ... }} }}";
 			case ServiceTypeKind.Array:
-				return $"[ {RenderFieldTypeAsJsonValue(typeInfo.ValueType)}, ... ]";
+				return $"[ {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... ]";
 			case ServiceTypeKind.Map:
-				return $"{{ \"...\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType)}, ... }}";
+				return $"{{ \"...\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... }}";
 			default:
 				throw new ArgumentOutOfRangeException();
 			}
@@ -424,15 +423,15 @@ namespace Facility.CodeGen.Markdown
 			case ServiceTypeKind.Error:
 				return "error";
 			case ServiceTypeKind.Dto:
-				return $"[{typeInfo.Dto.Name}]({typeInfo.Dto.Name}.md)";
+				return $"[{typeInfo.Dto!.Name}]({typeInfo.Dto.Name}.md)";
 			case ServiceTypeKind.Enum:
-				return $"[{typeInfo.Enum.Name}]({typeInfo.Enum.Name}.md)";
+				return $"[{typeInfo.Enum!.Name}]({typeInfo.Enum.Name}.md)";
 			case ServiceTypeKind.Result:
-				return $"result<{RenderFieldType(typeInfo.ValueType)}>";
+				return $"result<{RenderFieldType(typeInfo.ValueType!)}>";
 			case ServiceTypeKind.Array:
-				return $"{RenderFieldType(typeInfo.ValueType)}[]";
+				return $"{RenderFieldType(typeInfo.ValueType!)}[]";
 			case ServiceTypeKind.Map:
-				return $"map<{RenderFieldType(typeInfo.ValueType)}>";
+				return $"map<{RenderFieldType(typeInfo.ValueType!)}>";
 			default:
 				throw new ArgumentOutOfRangeException();
 			}
@@ -457,7 +456,7 @@ namespace Facility.CodeGen.Markdown
 		private void WriteCodeGenComment(CodeWriter code)
 		{
 			code.WriteLine();
-			code.WriteLine($"<!-- {CodeGenUtility.GetCodeGenComment(GeneratorName)} -->");
+			code.WriteLine($"<!-- {CodeGenUtility.GetCodeGenComment(GeneratorName ?? "")} -->");
 		}
 
 		private static readonly Dictionary<string, string> s_reasonPhrases = new Dictionary<string, string>

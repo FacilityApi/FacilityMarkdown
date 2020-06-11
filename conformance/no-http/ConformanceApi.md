@@ -15,6 +15,7 @@ API for a Facility test server.
 | [checkPath](ConformanceApi/checkPath.md) |  |
 | [mirrorHeaders](ConformanceApi/mirrorHeaders.md) |  |
 | [mixed](ConformanceApi/mixed.md) |  |
+| [required](ConformanceApi/required.md) |  |
 
 | data | description |
 | --- | --- |
@@ -23,6 +24,7 @@ API for a Facility test server.
 | [AnyArray](ConformanceApi/AnyArray.md) |  |
 | [AnyMap](ConformanceApi/AnyMap.md) |  |
 | [AnyResult](ConformanceApi/AnyResult.md) |  |
+| [HasWidget](ConformanceApi/HasWidget.md) |  |
 
 | enum | description |
 | --- | --- |

@@ -15,6 +15,7 @@ API for a Facility test server.
 | [checkPath](ConformanceApi/checkPath.md) | `GET /mirror/{string}/{boolean}/{double}/{int32}/{int64}/{decimal}/{enum}` |  |
 | [mirrorHeaders](ConformanceApi/mirrorHeaders.md) | `GET /mirrorHeaders` |  |
 | [mixed](ConformanceApi/mixed.md) | `POST /mixed/{path}` |  |
+| [required](ConformanceApi/required.md) | `POST /required` |  |
 
 | data | description |
 | --- | --- |
@@ -23,6 +24,7 @@ API for a Facility test server.
 | [AnyArray](ConformanceApi/AnyArray.md) |  |
 | [AnyMap](ConformanceApi/AnyMap.md) |  |
 | [AnyResult](ConformanceApi/AnyResult.md) |  |
+| [HasWidget](ConformanceApi/HasWidget.md) |  |
 
 | enum | description |
 | --- | --- |
