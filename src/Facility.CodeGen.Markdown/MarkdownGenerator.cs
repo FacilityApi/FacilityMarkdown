@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Facility.Definition;
@@ -150,108 +150,10 @@ namespace Facility.CodeGen.Markdown
 
 			return CreateFile($"{serviceName}/{methodInfo.Name}.md", code =>
 			{
-				code.WriteLine($"# {methodInfo.Name}");
+				var templateText = GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt");
 
-				code.WriteLine();
-				WriteSummary(code, methodInfo.Summary);
-
-				var httpMethodInfo = httpServiceInfo?.Methods.FirstOrDefault(x => x.ServiceMethod == methodInfo);
-				if (httpMethodInfo != null)
-				{
-					code.WriteLine();
-					code.WriteLine("```");
-
-					code.WriteLine($"{httpMethodInfo.Method} {httpMethodInfo.Path}");
-					var queryFields = httpMethodInfo.QueryFields.Where(x => !x.ServiceField.IsObsolete).ToList();
-					for (var queryIndex = 0; queryIndex < queryFields.Count; queryIndex++)
-					{
-						var queryInfo = queryFields[queryIndex];
-						var prefix = queryIndex == 0 ? "?" : "&";
-						code.WriteLine($"  {prefix}{queryInfo.Name}={{{queryInfo.ServiceField.Name}}}");
-					}
-
-					foreach (var headerField in httpMethodInfo.RequestHeaderFields)
-						code.WriteLine($"{headerField.Name}: ({headerField.ServiceField.Name})");
-
-					if (httpMethodInfo.RequestBodyField != null)
-					{
-						code.WriteLine($"({httpMethodInfo.RequestBodyField.ServiceField.Name})");
-					}
-					else if (httpMethodInfo.RequestNormalFields.Count != 0)
-					{
-						code.WriteLine("{");
-						var fields = httpMethodInfo.RequestNormalFields.Where(x => !x.ServiceField.IsObsolete).ToList();
-						for (var fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
-						{
-							var fieldInfo = fields[fieldIndex].ServiceField;
-							var jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo)!);
-							var suffix = fieldIndex == fields.Count - 1 ? "" : ",";
-							code.WriteLine($"  \"{fieldInfo.Name}\": {jsonValue}{suffix}");
-						}
-						code.WriteLine("}");
-					}
-
-					if (httpMethodInfo.ResponseHeaderFields.Count != 0)
-					{
-						code.WriteLine("--- response");
-						foreach (var headerField in httpMethodInfo.ResponseHeaderFields)
-							code.WriteLine($"{headerField.Name}: ({headerField.ServiceField.Name})");
-					}
-
-					foreach (var validResponse in httpMethodInfo.ValidResponses)
-					{
-						var statusCode = validResponse.StatusCode;
-						var statusCodeString = ((int) statusCode).ToString(CultureInfo.InvariantCulture);
-						s_reasonPhrases.TryGetValue(statusCodeString, out var reasonPhrase);
-
-						code.WriteLine($"--- {statusCodeString} {reasonPhrase}");
-
-						if (validResponse.BodyField != null)
-						{
-							var prefix = serviceInfo.GetFieldType(validResponse.BodyField.ServiceField)!.Kind == ServiceTypeKind.Boolean ? "if " : "";
-							code.WriteLine($"({prefix}{validResponse.BodyField.ServiceField.Name})");
-						}
-						else if (validResponse.NormalFields!.Count != 0)
-						{
-							code.WriteLine("{");
-							var fields = validResponse.NormalFields.Where(x => !x.ServiceField.IsObsolete).ToList();
-							for (var fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
-							{
-								var fieldInfo = fields[fieldIndex].ServiceField;
-								var jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo)!);
-								var suffix = fieldIndex == fields.Count - 1 ? "" : ",";
-								code.WriteLine($"  \"{fieldInfo.Name}\": {jsonValue}{suffix}");
-							}
-							code.WriteLine("}");
-						}
-					}
-
-					code.WriteLine("```");
-				}
-
-				var requestFields = methodInfo.RequestFields.Where(x => !x.IsObsolete).ToList();
-				if (requestFields.Count != 0)
-				{
-					code.WriteLine();
-					code.WriteLine("| request | type | description |");
-					code.WriteLine("| --- | --- | --- |");
-					foreach (var fieldInfo in requestFields)
-						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo)!)} | {fieldInfo.Summary} |");
-				}
-
-				var responseFields = methodInfo.ResponseFields.Where(x => !x.IsObsolete).ToList();
-				if (responseFields.Count != 0)
-				{
-					code.WriteLine();
-					code.WriteLine("| response | type | description |");
-					code.WriteLine("| --- | --- | --- |");
-					foreach (var fieldInfo in responseFields.Where(x => !x.IsObsolete))
-						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo)!)} | {fieldInfo.Summary} |");
-				}
-
-				WriteRemarks(code, methodInfo.Remarks);
-
-				WriteCodeGenComment(code);
+				code.Write(CodeTemplateUtility.Render(templateText,
+					new CodeTemplateGlobals(this, methodInfo, serviceInfo, httpServiceInfo)));
 			});
 		}
 
@@ -351,7 +253,7 @@ namespace Facility.CodeGen.Markdown
 			});
 		}
 
-		private string RenderFieldTypeAsJsonValue(ServiceTypeInfo typeInfo)
+		internal static string RenderFieldTypeAsJsonValue(ServiceTypeInfo typeInfo)
 		{
 			switch (typeInfo.Kind)
 			{
@@ -386,13 +288,13 @@ namespace Facility.CodeGen.Markdown
 			}
 		}
 
-		private string RenderDtoAsJsonValue(ServiceDtoInfo dtoInfo)
+		private static string RenderDtoAsJsonValue(ServiceDtoInfo dtoInfo)
 		{
 			var visibleFields = dtoInfo.Fields.Where(x => !x.IsObsolete).ToList();
 			return visibleFields.Count == 0 ? "{}" : $"{{ \"{visibleFields[0].Name}\": ... }}";
 		}
 
-		private string RenderEnumAsJsonValue(ServiceEnumInfo enumInfo)
+		private static string RenderEnumAsJsonValue(ServiceEnumInfo enumInfo)
 		{
 			const int maxValues = 3;
 			var values = enumInfo.Values.Where(x => !x.IsObsolete).ToList();
@@ -400,7 +302,7 @@ namespace Facility.CodeGen.Markdown
 				"\"(" + string.Join("|", values.Select(x => x.Name).Take(maxValues)) + (values.Count > maxValues ? "|..." : "") + ")\"";
 		}
 
-		private string RenderFieldType(ServiceTypeInfo typeInfo)
+		internal static string RenderFieldType(ServiceTypeInfo typeInfo)
 		{
 			switch (typeInfo.Kind)
 			{
@@ -459,49 +361,10 @@ namespace Facility.CodeGen.Markdown
 			code.WriteLine($"<!-- {CodeGenUtility.GetCodeGenComment(GeneratorName ?? "")} -->");
 		}
 
-		private static readonly Dictionary<string, string> s_reasonPhrases = new Dictionary<string, string>
+		private static string GetEmbeddedResourceText(string name)
 		{
-			["100"] = "Continue",
-			["101"] = "Switching Protocols",
-			["200"] = "OK",
-			["201"] = "Created",
-			["202"] = "Accepted",
-			["203"] = "Non-Authoritative Information",
-			["204"] = "No Content",
-			["205"] = "Reset Content",
-			["206"] = "Partial Content",
-			["300"] = "Multiple Choices",
-			["301"] = "Moved Permanently",
-			["302"] = "Found",
-			["303"] = "See Other",
-			["304"] = "Not Modified",
-			["305"] = "Use Proxy",
-			["307"] = "Temporary Redirect",
-			["400"] = "Bad Request",
-			["401"] = "Unauthorized",
-			["402"] = "Payment Required",
-			["403"] = "Forbidden",
-			["404"] = "Not Found",
-			["405"] = "Method Not Allowed",
-			["406"] = "Not Acceptable",
-			["407"] = "Proxy Authentication Required",
-			["408"] = "Request Timeout",
-			["409"] = "Conflict",
-			["410"] = "Gone",
-			["411"] = "Length Required",
-			["412"] = "Precondition Failed",
-			["413"] = "Request Entity Too Large",
-			["414"] = "Request-Uri Too Long",
-			["415"] = "Unsupported Media Type",
-			["416"] = "Requested Range Not Satisfiable",
-			["417"] = "Expectation Failed",
-			["426"] = "Upgrade Required",
-			["500"] = "Internal Server Error",
-			["501"] = "Not Implemented",
-			["502"] = "Bad Gateway",
-			["503"] = "Service Unavailable",
-			["504"] = "Gateway Timeout",
-			["505"] = "Http Version Not Supported",
-		};
+			using var reader = new StreamReader(typeof(MarkdownGenerator).Assembly.GetManifestResourceStream(name) ?? throw new InvalidOperationException());
+			return reader.ReadToEnd();
+		}
 	}
 }
