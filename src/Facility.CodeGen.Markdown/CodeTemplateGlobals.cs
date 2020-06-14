@@ -10,23 +10,22 @@ namespace Facility.CodeGen.Markdown
 {
 	public sealed class CodeTemplateGlobals
 	{
-		public CodeTemplateGlobals(MarkdownGenerator generator, ServiceMethodInfo methodInfo, ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
+		public CodeTemplateGlobals(MarkdownGenerator generator, ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
 		{
 			GeneratorName = generator.GeneratorName ?? "";
-			Method = methodInfo;
 
-			m_serviceInfo = serviceInfo;
+			Service = serviceInfo;
 			m_httpServiceInfo = httpServiceInfo;
 		}
 
 		public string GeneratorName { get; }
 
-		public ServiceMethodInfo Method { get; }
+		public ServiceInfo Service { get; }
 
 		public HttpElementInfo? GetHttp(ServiceElementInfo methodInfo) =>
 			m_httpServiceInfo?.Methods.FirstOrDefault(x => x.ServiceMethod == methodInfo);
 
-		public ServiceTypeInfo? GetFieldType(ServiceFieldInfo field) => m_serviceInfo.GetFieldType(field);
+		public ServiceTypeInfo? GetFieldType(ServiceFieldInfo field) => Service.GetFieldType(field);
 
 		public static string RenderFieldType(ServiceTypeInfo typeInfo) => MarkdownGenerator.RenderFieldType(typeInfo);
 
@@ -99,7 +98,6 @@ namespace Facility.CodeGen.Markdown
 			{ 505, "Http Version Not Supported" },
 		};
 
-		private readonly ServiceInfo m_serviceInfo;
 		private readonly HttpServiceInfo? m_httpServiceInfo;
 	}
 }

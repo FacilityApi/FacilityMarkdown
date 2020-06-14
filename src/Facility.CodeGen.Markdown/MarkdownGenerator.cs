@@ -38,8 +38,37 @@ namespace Facility.CodeGen.Markdown
 
 			outputFiles.Add(GenerateService(serviceInfo, httpServiceInfo));
 
-			foreach (var methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete))
-				outputFiles.Add(GenerateMethod(methodInfo, serviceInfo, httpServiceInfo));
+			var templateText = GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt");
+			var outputText = CodeTemplateUtility.Render(templateText, new CodeTemplateGlobals(this, serviceInfo, httpServiceInfo));
+			using var stringReader = new StringReader(outputText);
+
+			var fileStart = "";
+
+			string? line;
+			while ((line = stringReader.ReadLine()) != null)
+			{
+				var match = Regex.Match(line, @"^==+>");
+				if (match.Success)
+				{
+					fileStart = match.Value;
+					break;
+				}
+			}
+
+			while (line != null)
+			{
+				var fileName = line.Substring(fileStart.Length);
+
+				var fileLines = new List<string>();
+				while ((line = stringReader.ReadLine()) != null && !line.StartsWith(fileStart, StringComparison.Ordinal))
+					fileLines.Add(line);
+
+				outputFiles.Add(CreateFile(fileName.Trim(), code =>
+				{
+					foreach (var fileLine in fileLines)
+						code.WriteLine(fileLine);
+				}));
+			}
 
 			foreach (var dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete))
 				outputFiles.Add(GenerateDto(dtoInfo, serviceInfo, httpServiceInfo));
@@ -141,19 +170,6 @@ namespace Facility.CodeGen.Markdown
 				WriteRemarks(code, serviceInfo.Remarks);
 
 				WriteCodeGenComment(code);
-			});
-		}
-
-		private CodeGenFile GenerateMethod(ServiceMethodInfo methodInfo, ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
-		{
-			var serviceName = serviceInfo.Name;
-
-			return CreateFile($"{serviceName}/{methodInfo.Name}.md", code =>
-			{
-				var templateText = GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt");
-
-				code.Write(CodeTemplateUtility.Render(templateText,
-					new CodeTemplateGlobals(this, methodInfo, serviceInfo, httpServiceInfo)));
 			});
 		}
 
