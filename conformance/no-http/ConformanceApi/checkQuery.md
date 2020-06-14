@@ -1,6 +1,5 @@
 # checkQuery
 
-
 | request | type | description |
 | --- | --- | --- |
 | string | string |  |

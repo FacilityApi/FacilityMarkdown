@@ -1,6 +1,5 @@
 # mirrorFields
 
-
 | request | type | description |
 | --- | --- | --- |
 | field | [Any](Any.md) |  |

@@ -1,6 +1,5 @@
 # mixed
 
-
 ```
 POST /mixed/{path}
   ?query={query}

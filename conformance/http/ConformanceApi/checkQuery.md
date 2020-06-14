@@ -1,6 +1,5 @@
 # checkQuery
 
-
 ```
 GET /checkQuery
   ?string={string}

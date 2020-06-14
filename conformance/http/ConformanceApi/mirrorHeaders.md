@@ -1,6 +1,5 @@
 # mirrorHeaders
 
-
 ```
 GET /mirrorHeaders
 string: (string)

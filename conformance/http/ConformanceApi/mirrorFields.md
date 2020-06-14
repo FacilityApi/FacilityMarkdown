@@ -1,6 +1,5 @@
 # mirrorFields
 
-
 ```
 POST /mirrorFields
 {

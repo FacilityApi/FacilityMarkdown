@@ -1,6 +1,5 @@
 # mirrorHeaders
 
-
 | request | type | description |
 | --- | --- | --- |
 | string | string |  |
