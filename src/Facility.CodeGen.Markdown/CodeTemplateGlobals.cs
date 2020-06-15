@@ -47,6 +47,11 @@ namespace Facility.CodeGen.Markdown
 					if (!httpMethod.ServiceMethod.IsObsolete)
 						yield return item;
 				}
+				else if (item is HttpFieldInfo httpField)
+				{
+					if (!httpField.ServiceField.IsObsolete)
+						yield return item;
+				}
 				else
 				{
 					throw new InvalidOperationException("WhereNotObsolete: Unsupported type " + item.GetType().Name);

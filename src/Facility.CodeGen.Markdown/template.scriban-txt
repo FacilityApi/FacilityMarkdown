@@ -82,26 +82,26 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 
 ```
 {{ http.Method }} {{ http.Path }}
-{{ for field in http.QueryFields; if !field.ServiceField.IsObsolete ~}}
+{{ for field in http.QueryFields | WhereNotObsolete ~}}
   {{ if for.first; '?'; else; '&'; end }}{{ field.Name }}={{ '{' + field.ServiceField.Name + '}' }}
-{{ end; end ~}}
-{{ for field in http.RequestHeaderFields; if !field.ServiceField.IsObsolete ~}}
+{{ end ~}}
+{{ for field in http.RequestHeaderFields | WhereNotObsolete ~}}
 {{ field.Name }}: ({{ field.ServiceField.Name }})
-{{ end; end ~}}
+{{ end ~}}
 {{ if http.RequestBodyField ~}}
 ({{ http.RequestBodyField.ServiceField.Name }})
 {{ else if !http.RequestNormalFields.empty? ~}}
 {
-{{ for field in http.RequestNormalFields; if !field.ServiceField.IsObsolete ~}}
+{{ for field in http.RequestNormalFields | WhereNotObsolete ~}}
   "{{ field.ServiceField.Name }}": {{ field.ServiceField | GetFieldType | RenderFieldTypeAsJsonValue }}{{ if !for.last; ','; end }}
-{{ end; end ~}}
+{{ end ~}}
 }
 {{ end # if else if ~}}
 {{ if !http.ResponseHeaderFields.empty? ~}}
 --- response
-{{ for field in http.ResponseHeaderFields; if !field.ServiceField.IsObsolete ~}}
+{{ for field in http.ResponseHeaderFields | WhereNotObsolete ~}}
 {{ field.Name }}: ({{ field.ServiceField.Name }})
-{{ end; end ~}}
+{{ end ~}}
 {{ end # if !http.ResponseHeaderFields.empty? ~}}
 {{ for response in http.ValidResponses ~}}
 --- {{ response.StatusCode + 0 }} {{ response.StatusCode | StatusCodePhrase }}
@@ -109,9 +109,9 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 ({{ if (response.BodyField.ServiceField | GetFieldType).Kind == 'Boolean'; 'if '; end }}{{ response.BodyField.ServiceField.Name }})
 {{ else if !response.NormalFields.empty? ~}}
 {
-{{ for field in response.NormalFields; if !field.ServiceField.IsObsolete ~}}
+{{ for field in response.NormalFields | WhereNotObsolete ~}}
   "{{ field.ServiceField.Name }}": {{ field.ServiceField | GetFieldType | RenderFieldTypeAsJsonValue }}{{ if !for.last; ','; end }}
-{{ end; end ~}}
+{{ end ~}}
 }
 {{ end # if else if ~}}
 {{ end # for response in http.ValidResponses ~}}
