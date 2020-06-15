@@ -183,28 +183,6 @@ namespace Facility.CodeGen.Markdown
 			}
 		}
 
-		private void WriteSummary(CodeWriter code, string summary)
-		{
-			if (!string.IsNullOrWhiteSpace(summary))
-				code.WriteLine(summary);
-		}
-
-		private void WriteRemarks(CodeWriter code, IReadOnlyList<string> remarks)
-		{
-			if (remarks != null && remarks.Count != 0)
-			{
-				code.WriteLine();
-				foreach (var remark in remarks)
-					code.WriteLine(Regex.Replace(remark, @"\[([^\]]+)\]\(\)", "[$1]($1.md)"));
-			}
-		}
-
-		private void WriteCodeGenComment(CodeWriter code)
-		{
-			code.WriteLine();
-			code.WriteLine($"<!-- {CodeGenUtility.GetCodeGenComment(GeneratorName ?? "")} -->");
-		}
-
 		private static string GetEmbeddedResourceText(string name)
 		{
 			using var reader = new StreamReader(typeof(MarkdownGenerator).Assembly.GetManifestResourceStream(name) ?? throw new InvalidOperationException());

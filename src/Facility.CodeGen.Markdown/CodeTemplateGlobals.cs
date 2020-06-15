@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Facility.Definition;
+using Facility.Definition.CodeGen;
 using Facility.Definition.Http;
 
 namespace Facility.CodeGen.Markdown
@@ -12,17 +13,16 @@ namespace Facility.CodeGen.Markdown
 	{
 		public CodeTemplateGlobals(MarkdownGenerator generator, ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
 		{
-			GeneratorName = generator.GeneratorName ?? "";
-
 			Service = serviceInfo;
 			HttpService = httpServiceInfo;
+			CodeGenCommentText = CodeGenUtility.GetCodeGenComment(generator.GeneratorName ?? "");
 		}
-
-		public string GeneratorName { get; }
 
 		public ServiceInfo Service { get; }
 
 		public HttpServiceInfo? HttpService { get; }
+
+		public string CodeGenCommentText { get; }
 
 		public HttpElementInfo? GetHttp(ServiceElementInfo methodInfo) =>
 			HttpService?.Methods.FirstOrDefault(x => x.ServiceMethod == methodInfo);
