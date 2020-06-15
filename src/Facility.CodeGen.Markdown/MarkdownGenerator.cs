@@ -63,6 +63,14 @@ namespace Facility.CodeGen.Markdown
 				while ((line = stringReader.ReadLine()) != null && !line.StartsWith(fileStart, StringComparison.Ordinal))
 					fileLines.Add(line);
 
+				// skip exactly one blank line to allow file start to stand out
+				if (fileLines.Count != 0 && string.IsNullOrWhiteSpace(fileLines[0]))
+					fileLines.RemoveAt(0);
+
+				// remove all blank lines at the end
+				while (fileLines.Count != 0 && string.IsNullOrWhiteSpace(fileLines[fileLines.Count - 1]))
+					fileLines.RemoveAt(fileLines.Count - 1);
+
 				outputFiles.Add(CreateFile(fileName.Trim(), code =>
 				{
 					foreach (var fileLine in fileLines)

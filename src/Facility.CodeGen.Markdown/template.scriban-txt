@@ -1,5 +1,7 @@
 {{ for method in Service.Methods | WhereNotObsolete ~}}
+
 ==> {{ Service.Name}}/{{ method.Name }}.md
+
 # {{ method.Name }}
 {{ if !method.Summary.empty? ~}}
 
