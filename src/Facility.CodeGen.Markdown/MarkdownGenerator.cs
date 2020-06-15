@@ -36,8 +36,6 @@ namespace Facility.CodeGen.Markdown
 
 			var httpServiceInfo = NoHttp ? null : HttpServiceInfo.Create(serviceInfo);
 
-			outputFiles.Add(GenerateService(serviceInfo, httpServiceInfo));
-
 			var templateText = GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt");
 			var outputText = CodeTemplateUtility.Render(templateText, new CodeTemplateGlobals(this, serviceInfo, httpServiceInfo));
 			using var stringReader = new StringReader(outputText);
@@ -78,15 +76,6 @@ namespace Facility.CodeGen.Markdown
 				}));
 			}
 
-			foreach (var dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete))
-				outputFiles.Add(GenerateDto(dtoInfo, serviceInfo, httpServiceInfo));
-
-			foreach (var enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete))
-				outputFiles.Add(GenerateEnum(enumInfo, serviceInfo));
-
-			foreach (var errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
-				outputFiles.Add(GenerateErrorSet(errorSetInfo, serviceInfo));
-
 			var codeGenComment = CodeGenUtility.GetCodeGenComment(GeneratorName ?? "");
 			var patternsToClean = new[]
 			{
@@ -107,175 +96,6 @@ namespace Facility.CodeGen.Markdown
 		/// Patterns to clean are returned with the output.
 		/// </summary>
 		public override bool HasPatternsToClean => true;
-
-		private CodeGenFile GenerateService(ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
-		{
-			var serviceName = serviceInfo.Name;
-
-			return CreateFile($"{serviceName}.md", code =>
-			{
-				code.WriteLine($"# {serviceName}");
-
-				code.WriteLine();
-				WriteSummary(code, serviceInfo.Summary);
-
-				if (httpServiceInfo?.Url != null)
-				{
-					code.WriteLine();
-					code.WriteLine($"URL: [`{httpServiceInfo.Url}`]({httpServiceInfo.Url})");
-				}
-
-				if (serviceInfo.Methods.Count != 0)
-				{
-					if (httpServiceInfo != null)
-					{
-						code.WriteLine();
-						code.WriteLine("| method | path | description |");
-						code.WriteLine("| --- | --- | --- |");
-						foreach (var methodInfo in httpServiceInfo.Methods.Where(x => !x.ServiceMethod.IsObsolete))
-						{
-							code.WriteLine($"| [{methodInfo.ServiceMethod.Name}]({serviceName}/{methodInfo.ServiceMethod.Name}.md) | " +
-								$"`{methodInfo.Method.ToUpperInvariant()} {methodInfo.Path}` | {methodInfo.ServiceMethod.Summary} |");
-						}
-					}
-					else
-					{
-						code.WriteLine();
-						code.WriteLine("| method | description |");
-						code.WriteLine("| --- | --- |");
-						foreach (var methodInfo in serviceInfo.Methods.Where(x => !x.IsObsolete))
-							code.WriteLine($"| [{methodInfo.Name}]({serviceName}/{methodInfo.Name}.md) | {methodInfo.Summary} |");
-					}
-				}
-
-				if (serviceInfo.Dtos.Count != 0)
-				{
-					code.WriteLine();
-					code.WriteLine("| data | description |");
-					code.WriteLine("| --- | --- |");
-					foreach (var dtoInfo in serviceInfo.Dtos.Where(x => !x.IsObsolete))
-						code.WriteLine($"| [{dtoInfo.Name}]({serviceName}/{dtoInfo.Name}.md) | {dtoInfo.Summary} |");
-				}
-
-				if (serviceInfo.Enums.Count != 0)
-				{
-					code.WriteLine();
-					code.WriteLine("| enum | description |");
-					code.WriteLine("| --- | --- |");
-					foreach (var enumInfo in serviceInfo.Enums.Where(x => !x.IsObsolete))
-						code.WriteLine($"| [{enumInfo.Name}]({serviceName}/{enumInfo.Name}.md) | {enumInfo.Summary} |");
-				}
-
-				if (serviceInfo.ErrorSets.Count != 0)
-				{
-					code.WriteLine();
-					code.WriteLine("| errors | description |");
-					code.WriteLine("| --- | --- |");
-					foreach (var errorSetInfo in serviceInfo.ErrorSets.Where(x => !x.IsObsolete))
-						code.WriteLine($"| [{errorSetInfo.Name}]({serviceName}/{errorSetInfo.Name}.md) | {errorSetInfo.Summary} |");
-				}
-
-				WriteRemarks(code, serviceInfo.Remarks);
-
-				WriteCodeGenComment(code);
-			});
-		}
-
-		private CodeGenFile GenerateDto(ServiceDtoInfo dtoInfo, ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
-		{
-			var serviceName = serviceInfo.Name;
-
-			return CreateFile($"{serviceName}/{dtoInfo.Name}.md", code =>
-			{
-				code.WriteLine($"# {dtoInfo.Name}");
-
-				code.WriteLine();
-				code.WriteLine(dtoInfo.Summary);
-
-				var fields = dtoInfo.Fields.Where(x => !x.IsObsolete).ToList();
-
-				if (httpServiceInfo != null)
-				{
-					code.WriteLine();
-					code.WriteLine("```");
-					code.WriteLine("{");
-					for (var fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
-					{
-						var fieldInfo = fields[fieldIndex];
-						var jsonValue = RenderFieldTypeAsJsonValue(serviceInfo.GetFieldType(fieldInfo)!);
-						var suffix = fieldIndex == fields.Count - 1 ? "" : ",";
-						code.WriteLine($"  \"{fieldInfo.Name}\": {jsonValue}{suffix}");
-					}
-					code.WriteLine("}");
-					code.WriteLine("```");
-				}
-
-				if (fields.Count != 0)
-				{
-					code.WriteLine();
-					code.WriteLine("| field | type | description |");
-					code.WriteLine("| --- | --- | --- |");
-					foreach (var fieldInfo in fields)
-						code.WriteLine($"| {fieldInfo.Name} | {RenderFieldType(serviceInfo.GetFieldType(fieldInfo)!)} | {fieldInfo.Summary} |");
-				}
-
-				WriteRemarks(code, dtoInfo.Remarks);
-
-				WriteCodeGenComment(code);
-			});
-		}
-
-		private CodeGenFile GenerateEnum(ServiceEnumInfo enumInfo, ServiceInfo serviceInfo)
-		{
-			var serviceName = serviceInfo.Name;
-
-			return CreateFile($"{serviceName}/{enumInfo.Name}.md", code =>
-			{
-				code.WriteLine($"# {enumInfo.Name}");
-
-				code.WriteLine();
-				code.WriteLine(enumInfo.Summary);
-
-				if (enumInfo.Values.Count != 0)
-				{
-					code.WriteLine();
-					code.WriteLine("| name | description |");
-					code.WriteLine("| --- | --- |");
-					foreach (var enumValue in enumInfo.Values.Where(x => !x.IsObsolete))
-						code.WriteLine($"| {enumValue.Name} | {enumValue.Summary} |");
-				}
-
-				WriteRemarks(code, enumInfo.Remarks);
-
-				WriteCodeGenComment(code);
-			});
-		}
-
-		private CodeGenFile GenerateErrorSet(ServiceErrorSetInfo errorSetInfo, ServiceInfo serviceInfo)
-		{
-			var serviceName = serviceInfo.Name;
-
-			return CreateFile($"{serviceName}/{errorSetInfo.Name}.md", code =>
-			{
-				code.WriteLine($"# {errorSetInfo.Name}");
-
-				code.WriteLine();
-				code.WriteLine(errorSetInfo.Summary);
-
-				if (errorSetInfo.Errors.Count != 0)
-				{
-					code.WriteLine();
-					code.WriteLine("| error | description |");
-					code.WriteLine("| --- | --- |");
-					foreach (var errorInfo in errorSetInfo.Errors.Where(x => !x.IsObsolete))
-						code.WriteLine($"| {errorInfo.Name} | {errorInfo.Summary} |");
-				}
-
-				WriteRemarks(code, errorSetInfo.Remarks);
-
-				WriteCodeGenComment(code);
-			});
-		}
 
 		internal static string RenderFieldTypeAsJsonValue(ServiceTypeInfo typeInfo)
 		{

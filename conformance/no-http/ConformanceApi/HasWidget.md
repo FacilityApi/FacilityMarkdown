@@ -1,7 +1,5 @@
 # HasWidget
 
-
-
 | field | type | description |
 | --- | --- | --- |
 | widget | [Widget](Widget.md) |  |

@@ -1,7 +1,5 @@
 # Any
 
-
-
 | field | type | description |
 | --- | --- | --- |
 | string | string |  |

@@ -1,7 +1,5 @@
 # Any
 
-
-
 ```
 {
   "string": "(string)",

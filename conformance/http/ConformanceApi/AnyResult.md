@@ -1,7 +1,5 @@
 # AnyResult
 
-
-
 ```
 {
   "string": { "value": "(string)" | "error": { "code": ... } },

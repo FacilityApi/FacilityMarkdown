@@ -15,15 +15,17 @@ namespace Facility.CodeGen.Markdown
 			GeneratorName = generator.GeneratorName ?? "";
 
 			Service = serviceInfo;
-			m_httpServiceInfo = httpServiceInfo;
+			HttpService = httpServiceInfo;
 		}
 
 		public string GeneratorName { get; }
 
 		public ServiceInfo Service { get; }
 
+		public HttpServiceInfo? HttpService { get; }
+
 		public HttpElementInfo? GetHttp(ServiceElementInfo methodInfo) =>
-			m_httpServiceInfo?.Methods.FirstOrDefault(x => x.ServiceMethod == methodInfo);
+			HttpService?.Methods.FirstOrDefault(x => x.ServiceMethod == methodInfo);
 
 		public ServiceTypeInfo? GetFieldType(ServiceFieldInfo field) => Service.GetFieldType(field);
 
@@ -38,6 +40,11 @@ namespace Facility.CodeGen.Markdown
 				if (item is ServiceElementWithAttributesInfo withAttributes)
 				{
 					if (!withAttributes.IsObsolete)
+						yield return item;
+				}
+				else if (item is HttpMethodInfo httpMethod)
+				{
+					if (!httpMethod.ServiceMethod.IsObsolete)
 						yield return item;
 				}
 				else
@@ -97,7 +104,5 @@ namespace Facility.CodeGen.Markdown
 			{ 504, "Gateway Timeout" },
 			{ 505, "Http Version Not Supported" },
 		};
-
-		private readonly HttpServiceInfo? m_httpServiceInfo;
 	}
 }
