@@ -97,40 +97,25 @@ namespace Facility.CodeGen.Markdown
 		/// </summary>
 		public override bool HasPatternsToClean => true;
 
-		internal static string RenderFieldTypeAsJsonValue(ServiceTypeInfo typeInfo)
-		{
-			switch (typeInfo.Kind)
+		internal static string RenderFieldTypeAsJsonValue(ServiceTypeInfo typeInfo) =>
+			typeInfo.Kind switch
 			{
-			case ServiceTypeKind.String:
-				return "\"(string)\"";
-			case ServiceTypeKind.Boolean:
-				return "(true|false)";
-			case ServiceTypeKind.Double:
-			case ServiceTypeKind.Decimal:
-				return "(number)";
-			case ServiceTypeKind.Int32:
-			case ServiceTypeKind.Int64:
-				return "(integer)";
-			case ServiceTypeKind.Bytes:
-				return "\"(base64)\"";
-			case ServiceTypeKind.Object:
-				return "{ ... }";
-			case ServiceTypeKind.Error:
-				return "{ \"code\": ... }";
-			case ServiceTypeKind.Dto:
-				return RenderDtoAsJsonValue(typeInfo.Dto!);
-			case ServiceTypeKind.Enum:
-				return RenderEnumAsJsonValue(typeInfo.Enum!);
-			case ServiceTypeKind.Result:
-				return $"{{ \"value\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)} | \"error\": {{ \"code\": ... }} }}";
-			case ServiceTypeKind.Array:
-				return $"[ {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... ]";
-			case ServiceTypeKind.Map:
-				return $"{{ \"...\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... }}";
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-		}
+				ServiceTypeKind.String => "\"(string)\"",
+				ServiceTypeKind.Boolean => "(true|false)",
+				ServiceTypeKind.Double => "(number)",
+				ServiceTypeKind.Decimal => "(number)",
+				ServiceTypeKind.Int32 => "(integer)",
+				ServiceTypeKind.Int64 => "(integer)",
+				ServiceTypeKind.Bytes => "\"(base64)\"",
+				ServiceTypeKind.Object => "{ ... }",
+				ServiceTypeKind.Error => "{ \"code\": ... }",
+				ServiceTypeKind.Dto => RenderDtoAsJsonValue(typeInfo.Dto!),
+				ServiceTypeKind.Enum => RenderEnumAsJsonValue(typeInfo.Enum!),
+				ServiceTypeKind.Result => $"{{ \"value\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)} | \"error\": {{ \"code\": ... }} }}",
+				ServiceTypeKind.Array => $"[ {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... ]",
+				ServiceTypeKind.Map => $"{{ \"...\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... }}",
+				_ => throw new ArgumentOutOfRangeException()
+			};
 
 		private static string RenderDtoAsJsonValue(ServiceDtoInfo dtoInfo)
 		{
@@ -146,42 +131,25 @@ namespace Facility.CodeGen.Markdown
 				"\"(" + string.Join("|", values.Select(x => x.Name).Take(maxValues)) + (values.Count > maxValues ? "|..." : "") + ")\"";
 		}
 
-		internal static string RenderFieldType(ServiceTypeInfo typeInfo)
-		{
-			switch (typeInfo.Kind)
+		internal static string RenderFieldType(ServiceTypeInfo typeInfo) =>
+			typeInfo.Kind switch
 			{
-			case ServiceTypeKind.String:
-				return "string";
-			case ServiceTypeKind.Boolean:
-				return "boolean";
-			case ServiceTypeKind.Double:
-				return "double";
-			case ServiceTypeKind.Int32:
-				return "int32";
-			case ServiceTypeKind.Int64:
-				return "int64";
-			case ServiceTypeKind.Decimal:
-				return "decimal";
-			case ServiceTypeKind.Bytes:
-				return "bytes";
-			case ServiceTypeKind.Object:
-				return "object";
-			case ServiceTypeKind.Error:
-				return "error";
-			case ServiceTypeKind.Dto:
-				return $"[{typeInfo.Dto!.Name}]({typeInfo.Dto.Name}.md)";
-			case ServiceTypeKind.Enum:
-				return $"[{typeInfo.Enum!.Name}]({typeInfo.Enum.Name}.md)";
-			case ServiceTypeKind.Result:
-				return $"result<{RenderFieldType(typeInfo.ValueType!)}>";
-			case ServiceTypeKind.Array:
-				return $"{RenderFieldType(typeInfo.ValueType!)}[]";
-			case ServiceTypeKind.Map:
-				return $"map<{RenderFieldType(typeInfo.ValueType!)}>";
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-		}
+				ServiceTypeKind.String => "string",
+				ServiceTypeKind.Boolean => "boolean",
+				ServiceTypeKind.Double => "double",
+				ServiceTypeKind.Int32 => "int32",
+				ServiceTypeKind.Int64 => "int64",
+				ServiceTypeKind.Decimal => "decimal",
+				ServiceTypeKind.Bytes => "bytes",
+				ServiceTypeKind.Object => "object",
+				ServiceTypeKind.Error => "error",
+				ServiceTypeKind.Dto => $"[{typeInfo.Dto!.Name}]({typeInfo.Dto.Name}.md)",
+				ServiceTypeKind.Enum => $"[{typeInfo.Enum!.Name}]({typeInfo.Enum.Name}.md)",
+				ServiceTypeKind.Result => $"result<{RenderFieldType(typeInfo.ValueType!)}>",
+				ServiceTypeKind.Array => $"{RenderFieldType(typeInfo.ValueType!)}[]",
+				ServiceTypeKind.Map => $"map<{RenderFieldType(typeInfo.ValueType!)}>",
+				_ => throw new ArgumentOutOfRangeException()
+			};
 
 		private static string GetEmbeddedResourceText(string name)
 		{
