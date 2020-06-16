@@ -19,6 +19,7 @@
 <!-- {{ CodeGenCommentText }} -->
 {{ end # func WriteCodeGenComment ~}}
 
+{{### Service ### ~}}
 ==> {{ Service.Name }}.md
 
 # {{ Service.Name }}
@@ -71,6 +72,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ WriteRemarks Service ~}}
 {{ WriteCodeGenComment ~}}
 
+{{### Methods ### ~}}
 {{ for method in Service.Methods | WhereNotObsolete ~}}
 
 ==> {{ Service.Name }}/{{ method.Name }}.md
@@ -139,6 +141,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ WriteCodeGenComment ~}}
 {{ end # for method in Service.Methods | WhereNotObsolete ~}}
 
+{{### DTOs ### ~}}
 {{ for dto in Service.Dtos | WhereNotObsolete ~}}
 
 ==> {{ Service.Name }}/{{ dto.Name }}.md
@@ -168,6 +171,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ WriteCodeGenComment ~}}
 {{ end # for dto in Service.Dtos | WhereNotObsolete ~}}
 
+{{### Enums ### ~}}
 {{ for enum in Service.Enums | WhereNotObsolete ~}}
 
 ==> {{ Service.Name }}/{{ enum.Name }}.md
@@ -184,6 +188,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ WriteCodeGenComment ~}}
 {{ end # for enum in Service.Enums | WhereNotObsolete ~}}
 
+{{### Error Sets ### ~}}
 {{ for errorSet in Service.ErrorSets | WhereNotObsolete ~}}
 
 ==> {{ Service.Name }}/{{ errorSet.Name }}.md
