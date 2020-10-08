@@ -1,6 +1,5 @@
 # required
 
-
 ```
 POST /required
   ?query={query}

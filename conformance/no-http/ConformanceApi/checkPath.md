@@ -1,6 +1,5 @@
 # checkPath
 
-
 | request | type | description |
 | --- | --- | --- |
 | string | string |  |

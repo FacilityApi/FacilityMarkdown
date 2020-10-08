@@ -1,7 +1,5 @@
 # AnyArray
 
-
-
 ```
 {
   "string": [ "(string)", ... ],

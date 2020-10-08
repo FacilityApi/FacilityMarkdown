@@ -1,7 +1,5 @@
 # HasWidget
 
-
-
 ```
 {
   "widget": { "id": ... }

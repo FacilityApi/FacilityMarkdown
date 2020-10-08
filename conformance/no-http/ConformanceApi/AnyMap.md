@@ -1,7 +1,5 @@
 # AnyMap
 
-
-
 | field | type | description |
 | --- | --- | --- |
 | string | map<string> |  |

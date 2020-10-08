@@ -1,6 +1,5 @@
 # mixed
 
-
 | request | type | description |
 | --- | --- | --- |
 | path | string |  |

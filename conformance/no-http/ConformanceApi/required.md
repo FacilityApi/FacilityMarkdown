@@ -1,6 +1,5 @@
 # required
 
-
 | request | type | description |
 | --- | --- | --- |
 | query | string |  |

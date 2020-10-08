@@ -1,7 +1,5 @@
 # AnyArray
 
-
-
 | field | type | description |
 | --- | --- | --- |
 | string | string[] |  |

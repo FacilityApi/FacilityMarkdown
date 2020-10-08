@@ -1,7 +1,5 @@
 # AnyResult
 
-
-
 | field | type | description |
 | --- | --- | --- |
 | string | result<string> |  |
