@@ -46,7 +46,7 @@ namespace Facility.CodeGen.Markdown
 				ServiceTypeKind.Result => $"result<{RenderFieldType(typeInfo.ValueType!)}>",
 				ServiceTypeKind.Array => $"{RenderFieldType(typeInfo.ValueType!)}[]",
 				ServiceTypeKind.Map => $"map<{RenderFieldType(typeInfo.ValueType!)}>",
-				_ => throw new ArgumentOutOfRangeException()
+				_ => throw new ArgumentException("Type kind out of range.", nameof(typeInfo)),
 			};
 
 		public static string RenderFieldTypeAsJsonValue(ServiceTypeInfo typeInfo) =>
@@ -66,7 +66,7 @@ namespace Facility.CodeGen.Markdown
 				ServiceTypeKind.Result => $"{{ \"value\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)} | \"error\": {{ \"code\": ... }} }}",
 				ServiceTypeKind.Array => $"[ {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... ]",
 				ServiceTypeKind.Map => $"{{ \"...\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... }}",
-				_ => throw new ArgumentOutOfRangeException()
+				_ => throw new ArgumentException("Type kind out of range.", nameof(typeInfo)),
 			};
 
 		public IEnumerable WhereNotObsolete(IEnumerable items)
