@@ -1,5 +1,12 @@
 # Release Notes
 
+## 2.2.0
+
+* Remove extra blank lines from output.
+* Use a Scriban template under the hood.
+* Update `Facility.Definition` and `Facility.CodeGen.Console`.
+* Add .NET Core App 3.1 support to `fsdgenmd`.
+
 ## 2.1.0
 
 * Update `Facility.Definition`. (Supports shorthand for required attribute, e.g. `string!`.)
