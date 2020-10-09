@@ -7,7 +7,7 @@ using Scriban.Runtime;
 
 namespace Facility.CodeGen.Markdown
 {
-	public static class CodeTemplateUtility
+	internal static class CodeTemplateUtility
 	{
 		public static string Render(string templateText, CodeTemplateGlobals globals)
 		{

@@ -9,7 +9,7 @@ using Facility.Definition.Http;
 
 namespace Facility.CodeGen.Markdown
 {
-	public sealed class CodeTemplateGlobals
+	internal sealed class CodeTemplateGlobals
 	{
 		public CodeTemplateGlobals(MarkdownGenerator generator, ServiceInfo serviceInfo, HttpServiceInfo? httpServiceInfo)
 		{
