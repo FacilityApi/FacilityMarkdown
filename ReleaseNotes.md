@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.2.0
+## 2.2.1
 
 * Remove extra blank lines from output.
 * Use a Scriban template under the hood.
