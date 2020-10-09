@@ -1,6 +1,6 @@
 # MarkdownGeneratorSettings class
 
-Settings for generating Markdown and TypeScript.
+Settings for generating Markdown.
 
 ```csharp
 public sealed class MarkdownGeneratorSettings : FileGeneratorSettings
