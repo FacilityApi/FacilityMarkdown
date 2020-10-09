@@ -4,8 +4,6 @@
 
 | public type | description |
 | --- | --- |
-| class [CodeTemplateGlobals](Facility.CodeGen.Markdown/CodeTemplateGlobals.md) |  |
-| static class [CodeTemplateUtility](Facility.CodeGen.Markdown/CodeTemplateUtility.md) |  |
 | class [MarkdownGenerator](Facility.CodeGen.Markdown/MarkdownGenerator.md) | Generates Markdown. |
 | class [MarkdownGeneratorSettings](Facility.CodeGen.Markdown/MarkdownGeneratorSettings.md) | Settings for generating Markdown. |
 
