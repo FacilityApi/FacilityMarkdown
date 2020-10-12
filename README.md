@@ -1,7 +1,8 @@
 # Facility Markdown Support
 
 [Markdown support](https://facilityapi.github.io/generate/markdown) for the [Facility API Framework](https://facilityapi.github.io/).
-[![AppVeyor](https://img.shields.io/appveyor/ci/ejball/facilitymarkdown.svg)](https://ci.appveyor.com/project/ejball/facilitymarkdown)
+
+[![Build](https://github.com/FacilityApi/FacilityMarkdown/workflows/Build/badge.svg)](https://github.com/FacilityApi/FacilityMarkdown/actions?query=workflow%3ABuild)
 
 Name | Description | NuGet
 --- | --- | ---
