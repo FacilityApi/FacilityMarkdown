@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Linq;
+using CodeGenCore;
 using Facility.Definition;
 using Facility.Definition.CodeGen;
 using Facility.Definition.Http;
@@ -31,56 +31,15 @@ namespace Facility.CodeGen.Markdown
 		/// </summary>
 		public override CodeGenOutput GenerateOutput(ServiceInfo serviceInfo)
 		{
-			var outputFiles = new List<CodeGenFile>();
-
 			var httpServiceInfo = NoHttp ? null : HttpServiceInfo.Create(serviceInfo);
 
-			var templateText = GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt");
-			var outputText = CodeTemplateUtility.Render(templateText, new CodeTemplateGlobals(this, serviceInfo, httpServiceInfo));
-			using var stringReader = new StringReader(outputText);
+			var template = CodeGenTemplate.Parse(GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt"));
+			var globals = CodeGenGlobals.Create(new MarkdownGeneratorGlobals(this, serviceInfo, httpServiceInfo));
+			var files = template.Generate(globals, new CodeGenSettings { NewLine = NewLine, IndentText = IndentText });
 
-			var fileStart = "";
-
-			string? line;
-			while ((line = stringReader.ReadLine()) != null)
-			{
-				var match = Regex.Match(line, @"^==+>");
-				if (match.Success)
-				{
-					fileStart = match.Value;
-					break;
-				}
-			}
-
-			while (line != null)
-			{
-				var fileName = line.Substring(fileStart.Length);
-
-				var fileLines = new List<string>();
-				while ((line = stringReader.ReadLine()) != null && !line.StartsWith(fileStart, StringComparison.Ordinal))
-					fileLines.Add(line);
-
-				// skip exactly one blank line to allow file start to stand out
-				if (fileLines.Count != 0 && string.IsNullOrWhiteSpace(fileLines[0]))
-					fileLines.RemoveAt(0);
-
-				// remove all blank lines at the end
-				while (fileLines.Count != 0 && string.IsNullOrWhiteSpace(fileLines[fileLines.Count - 1]))
-					fileLines.RemoveAt(fileLines.Count - 1);
-
-				outputFiles.Add(CreateFile(fileName.Trim(), code =>
-				{
-					foreach (var fileLine in fileLines)
-						code.WriteLine(fileLine);
-				}));
-			}
-
-			var codeGenComment = CodeGenUtility.GetCodeGenComment(GeneratorName ?? "");
-			var patternsToClean = new[]
-			{
-				new CodeGenPattern("*.md", codeGenComment),
-			};
-			return new CodeGenOutput(outputFiles, patternsToClean);
+			return new CodeGenOutput(
+				files: files.Select(x => new CodeGenFile(x.Name, x.Text)).ToList(),
+				patternsToClean: new[] { new CodeGenPattern("*.md", CodeGenUtility.GetCodeGenComment(GeneratorName ?? "")) });
 		}
 
 		/// <summary>
