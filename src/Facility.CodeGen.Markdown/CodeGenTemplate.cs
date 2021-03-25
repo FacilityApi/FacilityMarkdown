@@ -10,7 +10,7 @@ namespace CodeGenCore
 {
 	public sealed class CodeGenTemplate
 	{
-		public static CodeGenTemplate Parse(string text) => new CodeGenTemplate(Template.Parse(text));
+		public static CodeGenTemplate Parse(string text) => new(Template.Parse(text));
 
 		public IReadOnlyList<CodeGenOutputFile> Generate(CodeGenGlobals globals, CodeGenSettings settings)
 		{
@@ -98,6 +98,6 @@ namespace CodeGenCore
 
 		private CodeGenTemplate(Template template) => Template = template;
 
-		private static readonly Regex s_indentRegex = new Regex(@"^[ \t]+", RegexOptions.Compiled);
+		private static readonly Regex s_indentRegex = new(@"^[ \t]+", RegexOptions.Compiled);
 	}
 }

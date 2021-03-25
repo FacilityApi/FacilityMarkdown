@@ -29,12 +29,12 @@ namespace Facility.CodeGen.Markdown
 		/// <summary>
 		/// Generates the Markdown.
 		/// </summary>
-		public override CodeGenOutput GenerateOutput(ServiceInfo serviceInfo)
+		public override CodeGenOutput GenerateOutput(ServiceInfo service)
 		{
-			var httpServiceInfo = NoHttp ? null : HttpServiceInfo.Create(serviceInfo);
+			var httpServiceInfo = NoHttp ? null : HttpServiceInfo.Create(service);
 
 			var template = CodeGenTemplate.Parse(GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt"));
-			var globals = CodeGenGlobals.Create(new MarkdownGeneratorGlobals(this, serviceInfo, httpServiceInfo));
+			var globals = CodeGenGlobals.Create(new MarkdownGeneratorGlobals(this, service, httpServiceInfo));
 			var files = template.Generate(globals, new CodeGenSettings { NewLine = NewLine, IndentText = IndentText });
 
 			return new CodeGenOutput(
