@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Facility.Definition" Version="2.2.2" />
+    <PackageReference Include="Facility.Definition" Version="2.6.1" />
     <PackageReference Include="Scriban" Version="2.1.4" />
   </ItemGroup>
 

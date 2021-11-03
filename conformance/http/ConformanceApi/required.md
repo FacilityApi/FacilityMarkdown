@@ -11,7 +11,8 @@ POST /required
   "widgetResult": { "value": { "id": ... } | "error": { "code": ... } },
   "widgetResults": [ { "value": { "id": ... } | "error": { "code": ... } }, ... ],
   "widgetMap": { "...": { "id": ... }, ... },
-  "hasWidget": { "widget": ... }
+  "hasWidget": { "widget": ... },
+  "point": [ (number), ... ]
 }
 --- 200 OK
 {
@@ -30,6 +31,7 @@ POST /required
 | widgetResults | result<[Widget](Widget.md)>[] |  |
 | widgetMap | map<[Widget](Widget.md)> |  |
 | hasWidget | [HasWidget](HasWidget.md) |  |
+| point | double[] |  |
 
 | response | type | description |
 | --- | --- | --- |

@@ -11,6 +11,7 @@
 | widgetResults | result<[Widget](Widget.md)>[] |  |
 | widgetMap | map<[Widget](Widget.md)> |  |
 | hasWidget | [HasWidget](HasWidget.md) |  |
+| point | double[] |  |
 
 | response | type | description |
 | --- | --- | --- |

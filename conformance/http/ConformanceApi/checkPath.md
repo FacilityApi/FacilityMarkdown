@@ -1,7 +1,7 @@
 # checkPath
 
 ```
-GET /mirror/{string}/{boolean}/{double}/{int32}/{int64}/{decimal}/{enum}
+GET /checkPath/{string}/{boolean}/{double}/{int32}/{int64}/{decimal}/{enum}
 --- 200 OK
 ```
 

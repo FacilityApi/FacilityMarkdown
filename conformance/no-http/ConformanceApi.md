@@ -16,6 +16,9 @@ API for a Facility test server.
 | [mirrorHeaders](ConformanceApi/mirrorHeaders.md) |  |
 | [mixed](ConformanceApi/mixed.md) |  |
 | [required](ConformanceApi/required.md) |  |
+| [mirrorBytes](ConformanceApi/mirrorBytes.md) |  |
+| [mirrorText](ConformanceApi/mirrorText.md) |  |
+| [bodyTypes](ConformanceApi/bodyTypes.md) |  |
 
 | data | description |
 | --- | --- |
