@@ -1,8 +1,9 @@
 # Release Notes
 
-## 2.2.2
+## 2.3.0
 
 * Fix "clean" feature.
+* Update `Facility.Definition`.
 
 ## 2.2.1
 
