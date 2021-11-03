@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.2.2
+
+* Fix "clean" feature.
+
 ## 2.2.1
 
 * Remove extra blank lines from output.
