@@ -39,7 +39,7 @@ namespace Facility.CodeGen.Markdown
 
 			return new CodeGenOutput(
 				files: files.Select(x => new CodeGenFile(x.Name, x.Text)).ToList(),
-				patternsToClean: new[] { new CodeGenPattern("*.md", CodeGenUtility.GetCodeGenComment(GeneratorName ?? "")) });
+				patternsToClean: new[] { new CodeGenPattern($"{service.Name}/*.md", CodeGenUtility.GetCodeGenComment(GeneratorName ?? "")) });
 		}
 
 		/// <summary>
