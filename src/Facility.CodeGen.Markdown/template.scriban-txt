@@ -24,10 +24,10 @@
 
 # {{ Service.Name }}
 {{ WriteSummary Service ~}}
-{{ if HttpService && HttpService.Url ~}}
+{{ if HttpService.Url ~}}
 
 URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
-{{ end # if HttpService && HttpService.Url ~}}
+{{ end # if HttpService.Url ~}}
 {{ if !Service.Methods.empty? ~}}
 {{ if HttpService ~}}
 
@@ -85,7 +85,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 ```
 {{ http.Method }} {{ http.Path }}
 {{ for field in http.QueryFields | WhereNotObsolete ~}}
-  {{ if for.first; '?'; else; '&'; end }}{{ field.Name }}={{ '{' + field.ServiceField.Name + '}' }}
+  {{ for.first ? '?' : '&' }}{{ field.Name }}={{ '{' + field.ServiceField.Name + '}' }}
 {{ end ~}}
 {{ for field in http.RequestHeaderFields | WhereNotObsolete ~}}
 {{ field.Name }}: ({{ field.ServiceField.Name }})
@@ -95,7 +95,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ else if !http.RequestNormalFields.empty? ~}}
 {
 {{ for field in http.RequestNormalFields | WhereNotObsolete ~}}
-  "{{ field.ServiceField.Name }}": {{ field.ServiceField | GetFieldType | RenderFieldTypeAsJsonValue }}{{ if !for.last; ','; end }}
+  "{{ field.ServiceField.Name }}": {{ field.ServiceField | GetFieldType | RenderFieldTypeAsJsonValue }}{{ for.last ? '' : ',' }}
 {{ end ~}}
 }
 {{ end # if else if ~}}
@@ -112,7 +112,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ else if !response.NormalFields.empty? ~}}
 {
 {{ for field in response.NormalFields | WhereNotObsolete ~}}
-  "{{ field.ServiceField.Name }}": {{ field.ServiceField | GetFieldType | RenderFieldTypeAsJsonValue }}{{ if !for.last; ','; end }}
+  "{{ field.ServiceField.Name }}": {{ field.ServiceField | GetFieldType | RenderFieldTypeAsJsonValue }}{{ for.last ? '' : ',' }}
 {{ end ~}}
 }
 {{ end # if else if ~}}
@@ -154,7 +154,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 ```
 {
 {{ for field in fields ~}}
-  "{{ field.Name }}": {{ field | GetFieldType | RenderFieldTypeAsJsonValue }}{{ if !for.last; ','; end }}
+  "{{ field.Name }}": {{ field | GetFieldType | RenderFieldTypeAsJsonValue }}{{ for.last ? '' : ',' }}
 {{ end ~}}
 }
 ```

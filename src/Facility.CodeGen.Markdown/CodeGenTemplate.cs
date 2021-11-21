@@ -23,6 +23,7 @@ public sealed class CodeGenTemplate
 		var context = new TemplateContext
 		{
 			StrictVariables = true,
+			EnableRelaxedTargetAccess = true,
 			MemberRenamer = x => x.Name,
 		};
 		context.PushCulture(new CultureInfo("en-US"));
