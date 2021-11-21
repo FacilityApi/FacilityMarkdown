@@ -12,7 +12,7 @@ public sealed class CodeGenGlobals
 
 		var sourceType = source.GetType();
 		foreach (var (name, methodInfo) in sourceType.GetProperties().Select(x => (x.Name, x.GetMethod))
-			         .Concat(sourceType.GetMethods().Where(IsValidMethod).Select(x => (x.Name, x))))
+			.Concat(sourceType.GetMethods().Where(IsValidMethod).Select(x => (x.Name, x))))
 		{
 			scriptObject.Import(member: name,
 				function: methodInfo.CreateDelegate(
