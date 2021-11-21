@@ -3,59 +3,58 @@ using Facility.Definition;
 using Facility.Definition.CodeGen;
 using Facility.Definition.Http;
 
-namespace Facility.CodeGen.Markdown
+namespace Facility.CodeGen.Markdown;
+
+/// <summary>
+/// Generates Markdown.
+/// </summary>
+public sealed class MarkdownGenerator : CodeGenerator
 {
 	/// <summary>
 	/// Generates Markdown.
 	/// </summary>
-	public sealed class MarkdownGenerator : CodeGenerator
+	/// <param name="settings">The settings.</param>
+	/// <returns>The number of updated files.</returns>
+	public static int GenerateMarkdown(MarkdownGeneratorSettings settings) =>
+		FileGenerator.GenerateFiles(new MarkdownGenerator { GeneratorName = nameof(MarkdownGenerator) }, settings);
+
+	/// <summary>
+	/// True if the HTTP documentation should be omitted.
+	/// </summary>
+	public bool NoHttp { get; set; }
+
+	/// <summary>
+	/// Generates the Markdown.
+	/// </summary>
+	public override CodeGenOutput GenerateOutput(ServiceInfo service)
 	{
-		/// <summary>
-		/// Generates Markdown.
-		/// </summary>
-		/// <param name="settings">The settings.</param>
-		/// <returns>The number of updated files.</returns>
-		public static int GenerateMarkdown(MarkdownGeneratorSettings settings) =>
-			FileGenerator.GenerateFiles(new MarkdownGenerator { GeneratorName = nameof(MarkdownGenerator) }, settings);
+		var httpServiceInfo = NoHttp ? null : HttpServiceInfo.Create(service);
 
-		/// <summary>
-		/// True if the HTTP documentation should be omitted.
-		/// </summary>
-		public bool NoHttp { get; set; }
+		var template = CodeGenTemplate.Parse(GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt"));
+		var globals = CodeGenGlobals.Create(new MarkdownGeneratorGlobals(this, service, httpServiceInfo));
+		var files = template.Generate(globals, new CodeGenSettings { NewLine = NewLine, IndentText = IndentText });
 
-		/// <summary>
-		/// Generates the Markdown.
-		/// </summary>
-		public override CodeGenOutput GenerateOutput(ServiceInfo service)
-		{
-			var httpServiceInfo = NoHttp ? null : HttpServiceInfo.Create(service);
+		return new CodeGenOutput(
+			files: files.Select(x => new CodeGenFile(x.Name, x.Text)).ToList(),
+			patternsToClean: new[] { new CodeGenPattern($"{service.Name}/*.md", CodeGenUtility.GetCodeGenComment(GeneratorName ?? "")) });
+	}
 
-			var template = CodeGenTemplate.Parse(GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt"));
-			var globals = CodeGenGlobals.Create(new MarkdownGeneratorGlobals(this, service, httpServiceInfo));
-			var files = template.Generate(globals, new CodeGenSettings { NewLine = NewLine, IndentText = IndentText });
+	/// <summary>
+	/// Applies generator-specific settings.
+	/// </summary>
+	public override void ApplySettings(FileGeneratorSettings settings)
+	{
+		NoHttp = ((MarkdownGeneratorSettings) settings).NoHttp;
+	}
 
-			return new CodeGenOutput(
-				files: files.Select(x => new CodeGenFile(x.Name, x.Text)).ToList(),
-				patternsToClean: new[] { new CodeGenPattern($"{service.Name}/*.md", CodeGenUtility.GetCodeGenComment(GeneratorName ?? "")) });
-		}
+	/// <summary>
+	/// Patterns to clean are returned with the output.
+	/// </summary>
+	public override bool HasPatternsToClean => true;
 
-		/// <summary>
-		/// Applies generator-specific settings.
-		/// </summary>
-		public override void ApplySettings(FileGeneratorSettings settings)
-		{
-			NoHttp = ((MarkdownGeneratorSettings) settings).NoHttp;
-		}
-
-		/// <summary>
-		/// Patterns to clean are returned with the output.
-		/// </summary>
-		public override bool HasPatternsToClean => true;
-
-		private static string GetEmbeddedResourceText(string name)
-		{
-			using var reader = new StreamReader(typeof(MarkdownGenerator).Assembly.GetManifestResourceStream(name) ?? throw new InvalidOperationException());
-			return reader.ReadToEnd();
-		}
+	private static string GetEmbeddedResourceText(string name)
+	{
+		using var reader = new StreamReader(typeof(MarkdownGenerator).Assembly.GetManifestResourceStream(name) ?? throw new InvalidOperationException());
+		return reader.ReadToEnd();
 	}
 }

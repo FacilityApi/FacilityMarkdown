@@ -1,9 +1,8 @@
-namespace CodeGenCore
-{
-	public sealed class CodeGenSettings
-	{
-		public string? NewLine { get; set; }
+namespace CodeGenCore;
 
-		public string? IndentText { get; set; }
-	}
+public sealed class CodeGenSettings
+{
+	public string? NewLine { get; set; }
+
+	public string? IndentText { get; set; }
 }
