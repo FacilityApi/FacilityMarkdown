@@ -1,5 +1,3 @@
-using System;
-
 namespace CodeGenCore
 {
 	public sealed class CodeGenOutputFile
