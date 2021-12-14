@@ -1,7 +1,3 @@
-using Faithlife.Build;
-using static Faithlife.Build.BuildUtility;
-using static Faithlife.Build.DotNetRunner;
-
 return BuildRunner.Execute(args, build =>
 {
 	var codegen = "fsdgenmd";
@@ -28,12 +24,10 @@ return BuildRunner.Execute(args, build =>
 	build.AddDotNetTargets(dotNetBuildSettings);
 
 	build.Target("codegen")
-		.DependsOn("build")
 		.Describe("Generates code from the FSD")
 		.Does(() => CodeGen(verify: false));
 
 	build.Target("verify-codegen")
-		.DependsOn("build")
 		.Describe("Ensures the generated code is up-to-date")
 		.Does(() => CodeGen(verify: true));
 
@@ -43,13 +37,14 @@ return BuildRunner.Execute(args, build =>
 	void CodeGen(bool verify)
 	{
 		var configuration = dotNetBuildSettings.GetConfiguration();
-		var toolPath = FindFiles($"src/{codegen}/bin/{configuration}/net6.0/{codegen}.dll").FirstOrDefault() ?? throw new BuildException($"Missing {codegen}.dll.");
+		RunDotNet("build", "-f", "net6.0", "-c", configuration, $"src/{codegen}");
 
-		var verifyOption = verify ? "--verify" : null;
+		RunDotNet("tool", "run", "FacilityConformance", "fsd", "--output", "conformance/ConformanceApi.fsd", verify ? "--verify" : null);
 
-		RunDotNet("tool", "run", "FacilityConformance", "fsd", "--output", "conformance/ConformanceApi.fsd", verifyOption);
+		RunCodeGen("conformance/ConformanceApi.fsd", "conformance/http/");
+		RunCodeGen("conformance/ConformanceApi.fsd", "conformance/no-http/", "--no-http");
 
-		RunDotNet(toolPath, "conformance/ConformanceApi.fsd", "conformance/http/", "--newline", "lf", verifyOption);
-		RunDotNet(toolPath, "conformance/ConformanceApi.fsd", "conformance/no-http/", "--no-http", "--newline", "lf", verifyOption);
+		void RunCodeGen(params string?[] args) =>
+			RunDotNet(new[] { "run", "--no-build", "--project", $"src/{codegen}", "-f", "net6.0", "-c", configuration, "--", "--newline", "lf", verify ? "--verify" : null }.Concat(args));
 	}
 });
