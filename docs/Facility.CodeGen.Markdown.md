@@ -1,14 +1,5 @@
 # Facility.CodeGen.Markdown assembly
 
-## CodeGenCore namespace
-
-| public type | description |
-| --- | --- |
-| class [CodeGenGlobals](./CodeGenCore/CodeGenGlobals.md) |  |
-| class [CodeGenOutputFile](./CodeGenCore/CodeGenOutputFile.md) |  |
-| class [CodeGenSettings](./CodeGenCore/CodeGenSettings.md) |  |
-| class [CodeGenTemplate](./CodeGenCore/CodeGenTemplate.md) |  |
-
 ## Facility.CodeGen.Markdown namespace
 
 | public type | description |
