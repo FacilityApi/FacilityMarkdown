@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.4.0
+
+* Support custom Scriban template.
+
 ## 2.3.0
 
 * Fix "clean" feature.
