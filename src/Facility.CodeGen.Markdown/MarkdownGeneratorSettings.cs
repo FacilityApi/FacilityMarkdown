@@ -11,4 +11,9 @@ public sealed class MarkdownGeneratorSettings : FileGeneratorSettings
 	/// True if the HTTP documentation should be omitted.
 	/// </summary>
 	public bool NoHttp { get; set; }
+
+	/// <summary>
+	/// The path to the template to be used when generating output.
+	/// </summary>
+	public string? TemplatePath { get; set; }
 }

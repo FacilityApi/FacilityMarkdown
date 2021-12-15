@@ -24,13 +24,18 @@ public sealed class MarkdownGenerator : CodeGenerator
 	public bool NoHttp { get; set; }
 
 	/// <summary>
+	/// The text of the template to be used when generating output.
+	/// </summary>
+	public string? TemplateText { get; set; }
+
+	/// <summary>
 	/// Generates the Markdown.
 	/// </summary>
 	public override CodeGenOutput GenerateOutput(ServiceInfo service)
 	{
 		var httpServiceInfo = NoHttp ? null : HttpServiceInfo.Create(service);
 
-		var template = CodeGenTemplate.Parse(GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt"));
+		var template = CodeGenTemplate.Parse(TemplateText ?? GetEmbeddedResourceText("Facility.CodeGen.Markdown.template.scriban-txt"));
 		var globals = CodeGenGlobals.Create(new MarkdownGeneratorGlobals(this, service, httpServiceInfo));
 		var files = template.Generate(globals, new CodeGenSettings { NewLine = NewLine, IndentText = IndentText });
 
@@ -44,7 +49,10 @@ public sealed class MarkdownGenerator : CodeGenerator
 	/// </summary>
 	public override void ApplySettings(FileGeneratorSettings settings)
 	{
-		NoHttp = ((MarkdownGeneratorSettings) settings).NoHttp;
+		var ourSettings = (MarkdownGeneratorSettings) settings;
+
+		NoHttp = ourSettings.NoHttp;
+		TemplateText = ourSettings.TemplatePath is null ? null : File.ReadAllText(ourSettings.TemplatePath);
 	}
 
 	/// <summary>

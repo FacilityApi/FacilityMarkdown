@@ -7,10 +7,7 @@ namespace fsdgenmd;
 
 public sealed class FsdGenMarkdownApp : CodeGeneratorApp
 {
-	public static int Main(string[] args)
-	{
-		return new FsdGenMarkdownApp().Run(args);
-	}
+	public static int Main(string[] args) => new FsdGenMarkdownApp().Run(args);
 
 	protected override IReadOnlyList<string> Description => new[]
 	{
@@ -21,10 +18,16 @@ public sealed class FsdGenMarkdownApp : CodeGeneratorApp
 	{
 		"   --no-http",
 		"      Omit HTTP documentation.",
+		"   --template <file-path>",
+		"      Override the default template.",
 	};
 
 	protected override CodeGenerator CreateGenerator() => new MarkdownGenerator();
 
 	protected override FileGeneratorSettings CreateSettings(ArgsReader args) =>
-		new MarkdownGeneratorSettings { NoHttp = args.ReadFlag("no-http") };
+		new MarkdownGeneratorSettings
+		{
+			NoHttp = args.ReadFlag("no-http"),
+			TemplatePath = args.ReadOption("template"),
+		};
 }
