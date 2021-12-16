@@ -95,7 +95,7 @@ internal sealed class MarkdownGeneratorGlobals
 	public static string StatusCodePhrase(HttpStatusCode statusCode)
 	{
 		s_reasonPhrases.TryGetValue((int) statusCode, out var reasonPhrase);
-		return reasonPhrase;
+		return reasonPhrase ?? "";
 	}
 
 	private static string RenderDtoAsJsonValue(ServiceDtoInfo dtoInfo)
