@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.4.1
+
+* Minor bug fixes.
+
 ## 2.4.0
 
 * Support custom Scriban template.
