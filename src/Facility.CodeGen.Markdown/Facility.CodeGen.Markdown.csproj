@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CodeGenCore" Version="0.1.1" />
+    <PackageReference Include="CodeGenCore" Version="0.3.0" />
     <PackageReference Include="Facility.Definition" Version="2.7.0" />
   </ItemGroup>
 
