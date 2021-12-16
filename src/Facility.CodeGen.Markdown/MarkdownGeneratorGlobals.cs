@@ -68,6 +68,9 @@ internal sealed class MarkdownGeneratorGlobals
 
 	public IEnumerable WhereNotObsolete(IEnumerable items)
 	{
+		if (items is null)
+			throw new ArgumentNullException(nameof(items));
+
 		foreach (var item in items)
 		{
 			if (item is ServiceElementWithAttributesInfo withAttributes)
