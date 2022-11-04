@@ -27,6 +27,7 @@ API for a Facility test server.
 | [AnyArray](ConformanceApi/AnyArray.md) |  |
 | [AnyMap](ConformanceApi/AnyMap.md) |  |
 | [AnyResult](ConformanceApi/AnyResult.md) |  |
+| [AnyNullable](ConformanceApi/AnyNullable.md) |  |
 | [HasWidget](ConformanceApi/HasWidget.md) |  |
 
 | enum | description |
