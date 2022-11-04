@@ -43,6 +43,7 @@ internal sealed class MarkdownGeneratorGlobals
 			ServiceTypeKind.Result => $"result<{RenderFieldType(typeInfo.ValueType!)}>",
 			ServiceTypeKind.Array => $"{RenderFieldType(typeInfo.ValueType!)}[]",
 			ServiceTypeKind.Map => $"map<{RenderFieldType(typeInfo.ValueType!)}>",
+			ServiceTypeKind.Nullable => $"nullable<{RenderFieldType(typeInfo.ValueType!)}>",
 			_ => throw new ArgumentException("Type kind out of range.", nameof(typeInfo)),
 		};
 
@@ -63,6 +64,7 @@ internal sealed class MarkdownGeneratorGlobals
 			ServiceTypeKind.Result => $"{{ \"value\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)} | \"error\": {{ \"code\": ... }} }}",
 			ServiceTypeKind.Array => $"[ {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... ]",
 			ServiceTypeKind.Map => $"{{ \"...\": {RenderFieldTypeAsJsonValue(typeInfo.ValueType!)}, ... }}",
+			ServiceTypeKind.Nullable => $"{RenderFieldTypeAsJsonValue(typeInfo.ValueType!)} | null",
 			_ => throw new ArgumentException("Type kind out of range.", nameof(typeInfo)),
 		};
 
