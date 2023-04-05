@@ -18,13 +18,44 @@ public sealed class MarkdownGeneratorTests
 		using (var reader = new StreamReader(stream!))
 			service = parser.ParseDefinition(new ServiceDefinitionText(Path.GetFileName(fileName), reader.ReadToEnd()));
 
-		var generator = new MarkdownGenerator
-		{
-			GeneratorName = "MarkdownGeneratorTests",
-		};
+		var generator = new MarkdownGenerator { GeneratorName = nameof(MarkdownGeneratorTests) };
 		generator.GenerateOutput(service);
 
 		generator.NoHttp = true;
 		generator.GenerateOutput(service);
+	}
+
+	[Test]
+	public void DtoWithExternDataType()
+	{
+		const string definition = @"service TestApi { extern data Thing; data Test {
+/// This is a description.
+thing: Thing; } }";
+		var parser = new FsdParser();
+		var service = parser.ParseDefinition(new ServiceDefinitionText("TestApi.fsd", definition));
+		var generator = new MarkdownGenerator { GeneratorName = nameof(MarkdownGeneratorTests) };
+
+		var output = generator.GenerateOutput(service);
+
+		var file = output.Files.First(x => x.Name == "TestApi/Test.md");
+		StringAssert.Contains("\"thing\": (extern Thing)", file.Text);
+		StringAssert.Contains("| thing | extern Thing | This is a description. |", file.Text);
+	}
+
+	[Test]
+	public void DtoWithExternEnumType()
+	{
+		const string definition = @"service TestApi { extern enum Kind; data Test {
+/// This is a description.
+kind: Kind; } }";
+		var parser = new FsdParser();
+		var service = parser.ParseDefinition(new ServiceDefinitionText("TestApi.fsd", definition));
+		var generator = new MarkdownGenerator { GeneratorName = nameof(MarkdownGeneratorTests) };
+
+		var output = generator.GenerateOutput(service);
+
+		var file = output.Files.First(x => x.Name == "TestApi/Test.md");
+		StringAssert.Contains("\"kind\": (extern Kind)", file.Text);
+		StringAssert.Contains("| kind | extern Kind | This is a description. |", file.Text);
 	}
 }
