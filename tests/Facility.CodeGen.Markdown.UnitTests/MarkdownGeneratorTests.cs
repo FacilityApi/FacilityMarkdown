@@ -38,8 +38,8 @@ thing: Thing; } }";
 		var output = generator.GenerateOutput(service);
 
 		var file = output.Files.First(x => x.Name == "TestApi/Test.md");
-		StringAssert.Contains("\"thing\": (extern Thing)", file.Text);
-		StringAssert.Contains("| thing | extern Thing | This is a description. |", file.Text);
+		StringAssert.Contains("\"thing\": (Thing)", file.Text);
+		StringAssert.Contains("| thing | Thing | This is a description. |", file.Text);
 	}
 
 	[Test]
@@ -55,7 +55,7 @@ kind: Kind; } }";
 		var output = generator.GenerateOutput(service);
 
 		var file = output.Files.First(x => x.Name == "TestApi/Test.md");
-		StringAssert.Contains("\"kind\": (extern Kind)", file.Text);
-		StringAssert.Contains("| kind | extern Kind | This is a description. |", file.Text);
+		StringAssert.Contains("\"kind\": (Kind)", file.Text);
+		StringAssert.Contains("| kind | Kind | This is a description. |", file.Text);
 	}
 }
