@@ -44,8 +44,8 @@ internal sealed class MarkdownGeneratorGlobals
 			ServiceTypeKind.Array => $"{RenderFieldType(typeInfo.ValueType!)}[]",
 			ServiceTypeKind.Map => $"map<{RenderFieldType(typeInfo.ValueType!)}>",
 			ServiceTypeKind.Nullable => $"nullable<{RenderFieldType(typeInfo.ValueType!)}>",
-			ServiceTypeKind.ExternalDto => $"{typeInfo.ExternalDto!.Name}",
-			ServiceTypeKind.ExternalEnum => $"{typeInfo.ExternalEnum!.Name}",
+			ServiceTypeKind.ExternalDto => typeInfo.ExternalDto!.Name,
+			ServiceTypeKind.ExternalEnum => typeInfo.ExternalEnum!.Name,
 			_ => throw new ArgumentException("Type kind out of range.", nameof(typeInfo)),
 		};
 
