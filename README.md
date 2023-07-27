@@ -9,4 +9,4 @@ Name | Description | NuGet
 fsdgenmd | A tool that generates Markdown for a Facility Service Definition. | [![NuGet](https://img.shields.io/nuget/v/fsdgenmd.svg)](https://www.nuget.org/packages/fsdgenmd)
 Facility.CodeGen.Markdown | A library that generates Markdown for a Facility Service Definition. | [![NuGet](https://img.shields.io/nuget/v/Facility.CodeGen.Markdown.svg)](https://www.nuget.org/packages/Facility.CodeGen.Markdown)
 
-[Documentation](https://facilityapi.github.io/) | [Release Notes](ReleaseNotes.md) | [Contributing](CONTRIBUTING.md)
+[Documentation](https://facilityapi.github.io/) | [Release Notes](https://github.com/FacilityApi/FacilityMarkdown/blob/master/ReleaseNotes.md) | [Contributing](https://github.com/FacilityApi/FacilityMarkdown/blob/master/CONTRIBUTING.md)
