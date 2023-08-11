@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.8.0
+
+* Support `datetime`.
+
 ## 2.7.0
 
 * Support `extern` data and enum types.
