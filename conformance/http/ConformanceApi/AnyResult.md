@@ -8,6 +8,7 @@
   "int32": { "value": (integer) | "error": { "code": ... } },
   "int64": { "value": (integer) | "error": { "code": ... } },
   "decimal": { "value": (number) | "error": { "code": ... } },
+  "datetime": { "value": "(date/time)" | "error": { "code": ... } },
   "bytes": { "value": "(base64)" | "error": { "code": ... } },
   "object": { "value": { ... } | "error": { "code": ... } },
   "error": { "value": { "code": ... } | "error": { "code": ... } },
@@ -28,6 +29,7 @@
 | int32 | result<int32> |  |
 | int64 | result<int64> |  |
 | decimal | result<decimal> |  |
+| datetime | result<datetime> |  |
 | bytes | result<bytes> |  |
 | object | result<object> |  |
 | error | result<error> |  |

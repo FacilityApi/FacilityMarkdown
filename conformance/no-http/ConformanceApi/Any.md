@@ -8,6 +8,7 @@
 | int32 | int32 |  |
 | int64 | int64 |  |
 | decimal | decimal |  |
+| datetime | datetime |  |
 | bytes | bytes |  |
 | object | object |  |
 | error | error |  |

@@ -8,6 +8,7 @@
   "int32": (integer) | null,
   "int64": (integer) | null,
   "decimal": (number) | null,
+  "datetime": "(date/time)" | null,
   "bytes": "(base64)" | null,
   "object": { ... } | null,
   "error": { "code": ... } | null,
@@ -27,6 +28,7 @@
 | int32 | nullable<int32> |  |
 | int64 | nullable<int64> |  |
 | decimal | nullable<decimal> |  |
+| datetime | nullable<datetime> |  |
 | bytes | nullable<bytes> |  |
 | object | nullable<object> |  |
 | error | nullable<error> |  |

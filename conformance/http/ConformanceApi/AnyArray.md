@@ -8,6 +8,7 @@
   "int32": [ (integer), ... ],
   "int64": [ (integer), ... ],
   "decimal": [ (number), ... ],
+  "datetime": [ "(date/time)", ... ],
   "bytes": [ "(base64)", ... ],
   "object": [ { ... }, ... ],
   "error": [ { "code": ... }, ... ],
@@ -28,6 +29,7 @@
 | int32 | int32[] |  |
 | int64 | int64[] |  |
 | decimal | decimal[] |  |
+| datetime | datetime[] |  |
 | bytes | bytes[] |  |
 | object | object[] |  |
 | error | error[] |  |

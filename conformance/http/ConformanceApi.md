@@ -12,7 +12,7 @@ API for a Facility test server.
 | [getWidgetBatch](ConformanceApi/getWidgetBatch.md) | `POST /widgets/get` | Gets the specified widgets. |
 | [mirrorFields](ConformanceApi/mirrorFields.md) | `POST /mirrorFields` |  |
 | [checkQuery](ConformanceApi/checkQuery.md) | `GET /checkQuery` |  |
-| [checkPath](ConformanceApi/checkPath.md) | `GET /checkPath/{string}/{boolean}/{double}/{int32}/{int64}/{decimal}/{enum}` |  |
+| [checkPath](ConformanceApi/checkPath.md) | `GET /checkPath/{string}/{boolean}/{double}/{int32}/{int64}/{decimal}/{enum}/{datetime}` |  |
 | [mirrorHeaders](ConformanceApi/mirrorHeaders.md) | `GET /mirrorHeaders` |  |
 | [mixed](ConformanceApi/mixed.md) | `POST /mixed/{path}` |  |
 | [required](ConformanceApi/required.md) | `POST /required` |  |

@@ -8,6 +8,7 @@
 | int32 | map<int32> |  |
 | int64 | map<int64> |  |
 | decimal | map<decimal> |  |
+| datetime | map<datetime> |  |
 | bytes | map<bytes> |  |
 | object | map<object> |  |
 | error | map<error> |  |
