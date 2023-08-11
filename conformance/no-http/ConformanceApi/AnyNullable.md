@@ -8,6 +8,7 @@
 | int32 | nullable<int32> |  |
 | int64 | nullable<int64> |  |
 | decimal | nullable<decimal> |  |
+| datetime | nullable<datetime> |  |
 | bytes | nullable<bytes> |  |
 | object | nullable<object> |  |
 | error | nullable<error> |  |

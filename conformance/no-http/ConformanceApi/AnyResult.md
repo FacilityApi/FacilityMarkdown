@@ -8,6 +8,7 @@
 | int32 | result<int32> |  |
 | int64 | result<int64> |  |
 | decimal | result<decimal> |  |
+| datetime | result<datetime> |  |
 | bytes | result<bytes> |  |
 | object | result<object> |  |
 | error | result<error> |  |
