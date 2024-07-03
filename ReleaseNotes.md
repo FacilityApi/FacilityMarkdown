@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.9.0
+
+* Add .NET 8 targets. Update dependencies.
+
 ## 2.8.0
 
 * Support `datetime`.
