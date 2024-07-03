@@ -9,18 +9,18 @@ public sealed class FsdGenMarkdownApp : CodeGeneratorApp
 {
 	public static int Main(string[] args) => new FsdGenMarkdownApp().Run(args);
 
-	protected override IReadOnlyList<string> Description => new[]
-	{
+	protected override IReadOnlyList<string> Description =>
+	[
 		"Generates Markdown for a Facility Service Definition.",
-	};
+	];
 
-	protected override IReadOnlyList<string> ExtraUsage => new[]
-	{
+	protected override IReadOnlyList<string> ExtraUsage =>
+	[
 		"   --no-http",
 		"      Omit HTTP documentation.",
 		"   --template <file-path>",
 		"      Override the default template.",
-	};
+	];
 
 	protected override CodeGenerator CreateGenerator() => new MarkdownGenerator();
 

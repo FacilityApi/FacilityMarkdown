@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Facility.CodeGen.Console" Version="$(FacilityVersion)" />
+    <PackageReference Include="Facility.CodeGen.Console" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@ public sealed class MarkdownGeneratorTests
 		const string fileName = "Facility.CodeGen.Markdown.UnitTests.ConformanceApi.fsd";
 		var parser = new FsdParser();
 		var stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream(fileName);
-		Assert.IsNotNull(stream);
+		Assert.That(stream, Is.Not.Null);
 		using (var reader = new StreamReader(stream!))
 			service = parser.ParseDefinition(new ServiceDefinitionText(Path.GetFileName(fileName), reader.ReadToEnd()));
 
@@ -38,8 +38,8 @@ thing: Thing; } }";
 		var output = generator.GenerateOutput(service);
 
 		var file = output.Files.First(x => x.Name == "TestApi/Test.md");
-		StringAssert.Contains("\"thing\": (Thing)", file.Text);
-		StringAssert.Contains("| thing | Thing | This is a description. |", file.Text);
+		Assert.That(file.Text, Does.Contain("\"thing\": (Thing)"));
+		Assert.That(file.Text, Does.Contain("| thing | Thing | This is a description. |"));
 	}
 
 	[Test]
@@ -55,7 +55,7 @@ kind: Kind; } }";
 		var output = generator.GenerateOutput(service);
 
 		var file = output.Files.First(x => x.Name == "TestApi/Test.md");
-		StringAssert.Contains("\"kind\": (Kind)", file.Text);
-		StringAssert.Contains("| kind | Kind | This is a description. |", file.Text);
+		Assert.That(file.Text, Does.Contain("\"kind\": (Kind)"));
+		Assert.That(file.Text, Does.Contain("| kind | Kind | This is a description. |"));
 	}
 }
