@@ -2,6 +2,7 @@ using ArgsReading;
 using Facility.CodeGen.Console;
 using Facility.CodeGen.Markdown;
 using Facility.Definition.CodeGen;
+using Facility.Definition.Fsd;
 
 namespace fsdgenmd;
 
@@ -21,6 +22,8 @@ public sealed class FsdGenMarkdownApp : CodeGeneratorApp
 		"   --template <file-path>",
 		"      Override the default template.",
 	];
+
+	protected override ServiceParser CreateParser() => new FsdParser(new FsdParserSettings { SupportsEvents = true });
 
 	protected override CodeGenerator CreateGenerator() => new MarkdownGenerator();
 

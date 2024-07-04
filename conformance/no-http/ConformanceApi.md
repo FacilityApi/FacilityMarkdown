@@ -20,6 +20,10 @@ API for a Facility test server.
 | [mirrorText](ConformanceApi/mirrorText.md) |  |
 | [bodyTypes](ConformanceApi/bodyTypes.md) |  |
 
+| event | description |
+| --- | --- |
+| [fibonacci](ConformanceApi/fibonacci.md) |  |
+
 | data | description |
 | --- | --- |
 | [Widget](ConformanceApi/Widget.md) | A widget. |

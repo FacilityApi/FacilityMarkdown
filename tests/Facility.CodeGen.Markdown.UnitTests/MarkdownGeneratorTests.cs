@@ -12,7 +12,7 @@ public sealed class MarkdownGeneratorTests
 	{
 		ServiceInfo service;
 		const string fileName = "Facility.CodeGen.Markdown.UnitTests.ConformanceApi.fsd";
-		var parser = new FsdParser();
+		var parser = CreateParser();
 		var stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream(fileName);
 		Assert.That(stream, Is.Not.Null);
 		using (var reader = new StreamReader(stream!))
@@ -31,7 +31,7 @@ public sealed class MarkdownGeneratorTests
 		const string definition = @"service TestApi { extern data Thing; data Test {
 /// This is a description.
 thing: Thing; } }";
-		var parser = new FsdParser();
+		var parser = CreateParser();
 		var service = parser.ParseDefinition(new ServiceDefinitionText("TestApi.fsd", definition));
 		var generator = new MarkdownGenerator { GeneratorName = nameof(MarkdownGeneratorTests) };
 
@@ -48,7 +48,7 @@ thing: Thing; } }";
 		const string definition = @"service TestApi { extern enum Kind; data Test {
 /// This is a description.
 kind: Kind; } }";
-		var parser = new FsdParser();
+		var parser = CreateParser();
 		var service = parser.ParseDefinition(new ServiceDefinitionText("TestApi.fsd", definition));
 		var generator = new MarkdownGenerator { GeneratorName = nameof(MarkdownGeneratorTests) };
 
@@ -58,4 +58,6 @@ kind: Kind; } }";
 		Assert.That(file.Text, Does.Contain("\"kind\": (Kind)"));
 		Assert.That(file.Text, Does.Contain("| kind | Kind | This is a description. |"));
 	}
+
+	private static FsdParser CreateParser() => new FsdParser(new FsdParserSettings { SupportsEvents = true });
 }

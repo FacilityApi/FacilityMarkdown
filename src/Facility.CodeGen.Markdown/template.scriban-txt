@@ -45,6 +45,23 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ end ~}}
 {{ end # else ~}}
 {{ end # if !Service.Methods.empty? ~}}
+{{ if !Service.Events.empty? ~}}
+{{ if HttpService ~}}
+
+| event | path | description |
+| --- | --- | --- |
+{{ for event in HttpService.Events | WhereNotObsolete ~}}
+| [{{ event.ServiceMethod.Name }}]({{ Service.Name }}/{{ event.ServiceMethod.Name }}.md) | `{{ event.Event }} {{ event.Path }}` | {{ event.ServiceMethod.Summary }} |
+{{ end ~}}
+{{ else # if HttpService ~}}
+
+| event | description |
+| --- | --- |
+{{ for event in Service.Events | WhereNotObsolete ~}}
+| [{{ event.Name }}]({{ Service.Name }}/{{ event.Name }}.md) | {{ event.Summary }} |
+{{ end ~}}
+{{ end # else ~}}
+{{ end # if !Service.Events.empty? ~}}
 {{ if !Service.Dtos.empty? ~}}
 
 | data | description |
@@ -73,11 +90,11 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ WriteCodeGenComment ~}}
 
 {{### Methods ### ~}}
-{{ for method in Service.Methods | WhereNotObsolete ~}}
+{{ for method in Service.AllMethods | WhereNotObsolete ~}}
 
 ==> {{ Service.Name }}/{{ method.Name }}.md
 
-# {{ method.Name }}
+# {{ method.Name }}{{ if method | IsEvent; ' (event)'; end }}
 {{ WriteSummary method ~}}
 {{ http = method | GetHttp ~}}
 {{ if http ~}}
@@ -106,7 +123,7 @@ URL: [`{{ HttpService.Url }}`]({{ HttpService.Url }})
 {{ end ~}}
 {{ end # if !http.ResponseHeaderFields.empty? ~}}
 {{ for response in http.ValidResponses ~}}
---- {{ response.StatusCode + 0 }} {{ response.StatusCode | StatusCodePhrase }}
+--- {{ response.StatusCode + 0 }} {{ response.StatusCode | StatusCodePhrase }}{{ if method | IsEvent; ' (server-sent events)'; end }}
 {{ if response.BodyField ~}}
 ({{ if (response.BodyField.ServiceField | GetFieldType).Kind == 'Boolean'; 'if '; end }}{{ response.BodyField.ServiceField.Name }})
 {{ else if !response.NormalFields.empty? ~}}

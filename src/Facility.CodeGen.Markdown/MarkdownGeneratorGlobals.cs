@@ -22,7 +22,15 @@ internal sealed class MarkdownGeneratorGlobals
 	public string CodeGenCommentText { get; }
 
 	public HttpElementInfo? GetHttp(ServiceElementInfo methodInfo) =>
-		HttpService?.Methods.FirstOrDefault(x => x.ServiceMethod == methodInfo);
+		HttpService?.AllMethods.FirstOrDefault(x => x.ServiceMethod == methodInfo);
+
+	public bool IsEvent(object methodInfo) =>
+		methodInfo switch
+		{
+			ServiceMethodInfo serviceMethodInfo => serviceMethodInfo.Kind == ServiceMethodKind.Event,
+			HttpMethodInfo httpMethodInfo => httpMethodInfo.ServiceMethod.Kind == ServiceMethodKind.Event,
+			_ => false,
+		};
 
 	public ServiceTypeInfo? GetFieldType(ServiceFieldInfo field) => Service.GetFieldType(field);
 
