@@ -3,11 +3,12 @@
 Generates Markdown.
 
 ```csharp
-public static int GenerateMarkdown(MarkdownGeneratorSettings settings)
+public static int GenerateMarkdown(ServiceParser parser, MarkdownGeneratorSettings settings)
 ```
 
 | parameter | description |
 | --- | --- |
+| parser | The parser. |
 | settings | The settings. |
 
 ## Return Value
