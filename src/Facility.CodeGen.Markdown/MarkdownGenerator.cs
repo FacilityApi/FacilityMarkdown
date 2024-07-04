@@ -1,6 +1,7 @@
 using CodeGenCore;
 using Facility.Definition;
 using Facility.Definition.CodeGen;
+using Facility.Definition.Fsd;
 using Facility.Definition.Http;
 
 namespace Facility.CodeGen.Markdown;
@@ -13,8 +14,18 @@ public sealed class MarkdownGenerator : CodeGenerator
 	/// <summary>
 	/// Generates Markdown.
 	/// </summary>
+	/// <param name="parser">The parser.</param>
 	/// <param name="settings">The settings.</param>
 	/// <returns>The number of updated files.</returns>
+	public static int GenerateMarkdown(ServiceParser parser, MarkdownGeneratorSettings settings) =>
+		FileGenerator.GenerateFiles(parser, new MarkdownGenerator { GeneratorName = nameof(MarkdownGenerator) }, settings);
+
+	/// <summary>
+	/// Generates Markdown.
+	/// </summary>
+	/// <param name="settings">The settings.</param>
+	/// <returns>The number of updated files.</returns>
+	[Obsolete("Use the overload that takes a parser.")]
 	public static int GenerateMarkdown(MarkdownGeneratorSettings settings) =>
 		FileGenerator.GenerateFiles(new MarkdownGenerator { GeneratorName = nameof(MarkdownGenerator) }, settings);
 

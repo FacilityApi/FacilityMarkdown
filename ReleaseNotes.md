@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.10.0
+
+* Support events.
+
 ## 2.9.0
 
 * Add .NET 8 targets. Update dependencies.
