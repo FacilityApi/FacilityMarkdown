@@ -1,5 +1,10 @@
 # Release Notes
 
+## 2.12.1
+
+* Update NuGet package README.
+* Update CodeGenCore dependency.
+
 ## 2.12.0
 
 * Support `float` field type.
