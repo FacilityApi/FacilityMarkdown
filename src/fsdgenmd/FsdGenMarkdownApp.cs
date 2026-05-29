@@ -6,7 +6,7 @@ using Facility.Definition.Fsd;
 
 namespace fsdgenmd;
 
-public sealed class FsdGenMarkdownApp : CodeGeneratorApp
+internal sealed class FsdGenMarkdownApp : CodeGeneratorApp
 {
 	public static int Main(string[] args) => new FsdGenMarkdownApp().Run(args);
 

@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Facility.CodeGen.Markdown.UnitTests;
 
-public sealed class MarkdownGeneratorTests
+internal sealed class MarkdownGeneratorTests
 {
 	[Test]
 	public void GenerateExampleApiSuccess()
