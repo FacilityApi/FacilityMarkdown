@@ -2,8 +2,6 @@
 
 [Markdown support](https://facilityapi.github.io/generate/markdown) for the [Facility API Framework](https://facilityapi.github.io/).
 
-[![Build](https://github.com/FacilityApi/FacilityMarkdown/workflows/Build/badge.svg)](https://github.com/FacilityApi/FacilityMarkdown/actions?query=workflow%3ABuild)
-
 Name | Description | NuGet
 --- | --- | ---
 fsdgenmd | A tool that generates Markdown for a Facility Service Definition. | [![NuGet](https://img.shields.io/nuget/v/fsdgenmd.svg)](https://www.nuget.org/packages/fsdgenmd)

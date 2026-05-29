@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/Facility.CodeGen.Markdown/Facility.CodeGen.Markdown.csproj" />
+  <Project Path="src/fsdgenmd/fsdgenmd.csproj" />
+  <Project Path="tests/Facility.CodeGen.Markdown.UnitTests/Facility.CodeGen.Markdown.UnitTests.csproj" />
+  <Project Path="tools/Build/Build.csproj" />
+</Solution>
