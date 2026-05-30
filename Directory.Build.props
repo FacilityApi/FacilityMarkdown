@@ -4,16 +4,11 @@
     <VersionPrefix>2.12.1</VersionPrefix>
     <PackageValidationBaselineVersion>2.12.0</PackageValidationBaselineVersion>
     <NoWarn>$(NoWarn);1591;1998;NU1507;NU5105</NoWarn>
-    <Authors>Ed Ball</Authors>
-  </PropertyGroup>
-
-  <!-- DO NOT EDIT: facility-dotnet-package-props convention -->
-  <PropertyGroup>
     <GitHubOrganization>FacilityApi</GitHubOrganization>
     <RepositoryName>FacilityMarkdown</RepositoryName>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Ed Ball</Authors>
   </PropertyGroup>
-  <!-- END DO NOT EDIT -->
 
   <!-- DO NOT EDIT: dotnet-common-props convention -->
   <PropertyGroup>
