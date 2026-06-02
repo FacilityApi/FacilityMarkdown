@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.12.2
+
+* Update dependencies.
+
 ## 2.12.1
 
 * Update NuGet package README.
