@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.12.3
+
+* Update CodeGenCore dependency.
+
 ## 2.12.2
 
 * Update dependencies.
