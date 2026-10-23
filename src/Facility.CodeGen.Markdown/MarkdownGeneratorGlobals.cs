@@ -129,8 +129,9 @@ internal sealed class MarkdownGeneratorGlobals
 	{
 		const int maxValues = 3;
 		var values = enumInfo.Values.Where(x => !x.IsObsolete).ToList();
-		return values.Count == 1 ? $"\"{values[0].Name}\"" :
-			"\"(" + string.Join("|", values.Select(x => x.Name).Take(maxValues)) + (values.Count > maxValues ? "|..." : "") + ")\"";
+		return values.Count == 1
+			? $"\"{values[0].Name}\""
+			: "\"(" + string.Join("|", values.Select(x => x.Name).Take(maxValues)) + (values.Count > maxValues ? "|..." : "") + ")\"";
 	}
 
 	private static readonly Dictionary<int, string> s_reasonPhrases = new Dictionary<int, string>
